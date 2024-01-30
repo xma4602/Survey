@@ -1,65 +1,35 @@
 package com.xma;
 
-import com.xma.model.Answer;
+import com.xma.model.Question;
 import com.xma.model.Survey;
-import com.xma.statistic.QuestionStatistic;
+import com.xma.model.statistic.QuestionStatistic;
 
-import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class SurveyManager {
 
-    private final Map<UUID, Survey> surveys = new HashMap<>();
-
-    public void addSurvey(Survey survey) {
-        surveys.put(survey.getSurveyId(), survey);
+    public static Iterable<Question> getOpenedQuestions(Survey survey) {
+        return StreamSupport.stream(survey.getQuestions().spliterator(), false)
+                .filter(Question::isVisible)
+                .toList();
     }
 
-    public void addAllSurveys(Survey... surveys) {
-        for (var survey : surveys) addSurvey(survey);
+    public static Iterable<QuestionStatistic> getOpenedStatistics(Survey survey) {
+        return StreamSupport.stream(survey.getQuestions().spliterator(), false)
+                .filter(Question::isVisible)
+                .map(QuestionStatistic::new)
+                .toList();
     }
 
-    public Iterable<Map.Entry<String, Iterable<String>>> getOpenedQuestions(UUID surveyId) {
-        Survey survey = surveys.get(surveyId);
-        List<Map.Entry<String, Iterable<String>>> list = new ArrayList<>();
-
-        for (var question : survey.getQuestions()) {
-            if (question.isVisible()) {
-                List<String> texts = new ArrayList<>();
-                for (var answer : question.getAnswers()) texts.add(answer.getText());
-                list.add(Map.entry(question.getTopic(), texts));
-            }
-        }
-
-        return list;
+    public static Iterable<QuestionStatistic> getClosedStatistics(Survey survey) {
+        return StreamSupport.stream(survey.getQuestions().spliterator(), false)
+                .filter(question -> !question.isVisible() && !question.isEditable())
+                .map(QuestionStatistic::new)
+                .toList();
     }
 
-    public Iterable<QuestionStatistic> getOpenedStatistics(UUID surveyId) {
-        Survey survey = surveys.get(surveyId);
-        List<QuestionStatistic> list = new ArrayList<>();
-
-        for (var question : survey.getQuestions()) {
-            if (question.isVisible()) {
-                list.add(new QuestionStatistic(question.getTopic(), question.getAnswers()));
-            }
-        }
-
-        return list;
-    }
-
-    public Iterable<QuestionStatistic> getClosedStatistics(UUID surveyId) {
-        Survey survey = surveys.get(surveyId);
-        List<QuestionStatistic> list = new ArrayList<>();
-
-        for (var question : survey.getQuestions()) {
-            if (!question.isVisible() && !question.isEditable()) {
-                list.add(new QuestionStatistic(question.getTopic(), question.getAnswers()));
-            }
-        }
-
-        return list;
-    }
-
-    public int answer(UUID surveyId, int questionIndex, int answerIndex) {
-        return surveys.get(surveyId).answer(questionIndex, answerIndex);
+    public static int answer(Survey survey, int questionIndex, int answerIndex) {
+        return survey.answer(questionIndex, answerIndex);
     }
 }

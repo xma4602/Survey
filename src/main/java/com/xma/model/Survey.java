@@ -1,13 +1,18 @@
 package com.xma.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NonNull;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
+@NoArgsConstructor
+@ToString
+@EqualsAndHashCode
 public class Survey {
     @Getter
     private UUID surveyId;
@@ -15,6 +20,15 @@ public class Survey {
 
     public Survey(UUID surveyId) {
         this.surveyId = surveyId;
+    }
+
+    public Survey(UUID surveyId, Iterable<Question> questions) {
+        this(surveyId);
+        questions.forEach(answer -> addQuestion(this.questions.size(), answer));
+    }
+
+    public int getQuestionSize() {
+        return questions.size();
     }
 
     public Iterable<Question> getQuestions() {
@@ -25,17 +39,16 @@ public class Survey {
         return questions.get(index);
     }
 
-    public int addQuestion(int index, @NonNull Question question) {
+    public int addQuestion(int index, Question question) {
         if (index > questions.size()) {
             index = questions.size();
-            questions.add(question);
         } else {
-            questions.add(index, question);
-            for (int idx = index + 1; idx < questions.size(); idx++) {
+            for (int idx = index; idx < questions.size(); idx++) {
                 questions.get(idx).putInSurvey(idx, surveyId);
             }
         }
-
+        questions.add(index, question);
+        question.putInSurvey(index, surveyId);
         return index;
     }
 
@@ -54,6 +67,6 @@ public class Survey {
     }
 
     public int answer(int questionIndex, int answerIndex) {
-       return questions.get(questionIndex).answer(answerIndex);
+        return questions.get(questionIndex).answer(answerIndex);
     }
 }
