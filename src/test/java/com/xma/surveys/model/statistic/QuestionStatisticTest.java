@@ -1,21 +1,19 @@
-package com.xma.model.statistic;
+package com.xma.surveys.model.statistic;
 
-import com.xma.model.Answer;
-import com.xma.model.Question;
-import com.xma.model.generators.QuestionGenerator;
+import com.xma.surveys.model.Answer;
+import com.xma.surveys.model.Question;
+import com.xma.surveys.model.generators.QuestionGenerator;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class QuestionStatisticTest {
 
-    Map<Question, QuestionStatistic> statisticMap = new HashMap<>();
+    final Map<Question, QuestionStatistic> statisticMap = new HashMap<>();
 
     {
         List<Question> questions = new QuestionGenerator().generateList(50, true);
@@ -45,9 +43,11 @@ class QuestionStatisticTest {
     @Test
     void getAnswersCounts() {
         for (var q : statisticMap.entrySet()) {
-            List<Integer> counts = new ArrayList<>();
-            q.getKey().getAnswers().forEach(answer -> counts.add(answer.getCount()));
-            assertIterableEquals(counts, q.getValue().getAnswersCounts());
+            int i = 0;
+            for (Answer answer : q.getKey().getAnswers()) {
+                AnswerStatistic answerStatistic = q.getValue().getAnswerStatistics()[i++];
+                assertEquals(answer.getCount(), answerStatistic.getCount());
+            }
         }
     }
 
@@ -58,11 +58,11 @@ class QuestionStatisticTest {
             for (Answer answer : q.getKey().getAnswers()) {
                 count += answer.getCount();
             }
-            List<Double> percents = new ArrayList<>();
+            int i = 0;
             for (Answer answer : q.getKey().getAnswers()) {
-                percents.add((double) answer.getCount() / count);
+                AnswerStatistic answerStatistic = q.getValue().getAnswerStatistics()[i++];
+                assertEquals(answer.getCount() / (double) count, answerStatistic.getPercent());
             }
-            assertIterableEquals(percents, q.getValue().getAnswersPercents());
         }
     }
 }

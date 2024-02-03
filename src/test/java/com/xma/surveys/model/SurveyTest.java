@@ -1,16 +1,19 @@
-package com.xma.model;
+package com.xma.surveys.model;
 
-import com.xma.model.generators.QuestionGenerator;
-import com.xma.model.generators.SurveyGenerator;
+import com.xma.surveys.model.generators.QuestionGenerator;
+import com.xma.surveys.model.generators.SurveyGenerator;
 import org.junit.jupiter.api.Test;
+
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 class SurveyTest {
     public static final int COUNT = 20;
-    QuestionGenerator questionGenerator = new QuestionGenerator();
-    SurveyGenerator surveyGenerator = new SurveyGenerator();
+    final QuestionGenerator questionGenerator = new QuestionGenerator();
+    final SurveyGenerator surveyGenerator = new SurveyGenerator();
+    final Random random = new Random(100);
 
     @Test
     void getQuestions() {
@@ -39,7 +42,7 @@ class SurveyTest {
         Survey survey = surveyGenerator.generate();
         for (int i = 0; i < COUNT; i++) {
             var question = questionGenerator.generate();
-            int index = (int) (Math.random() * COUNT);
+            int index = random.nextInt(COUNT);
             index = survey.addQuestion(index, question);
             for (var question1 : survey.getQuestions()) {
                 if (question1 == question) {
@@ -54,7 +57,7 @@ class SurveyTest {
     void removeQuestion() {
         Survey survey = surveyGenerator.generate(true);
         Question question = questionGenerator.generate();
-        int index = survey.addQuestion((int) (Math.random() * COUNT), question);
+        int index = survey.addQuestion(random.nextInt(COUNT), question);
 
         assertEquals(question, survey.removeQuestion(index));
     }
@@ -62,8 +65,8 @@ class SurveyTest {
     @Test
     void swapQuestions() {
         Survey survey = surveyGenerator.generate(true);
-        int index1 = (int) (Math.random() * survey.getQuestionSize());
-        int index2 = (int) (Math.random() * survey.getQuestionSize());
+        int index1 = random.nextInt(survey.getQuestionsCount());
+        int index2 = random.nextInt(survey.getQuestionsCount());
         Question question1 = survey.getQuestion(index1);
         Question question2 = survey.getQuestion(index2);
 
@@ -79,8 +82,8 @@ class SurveyTest {
         for (Question question : survey.getQuestions()) {
             question.open();
         }
-        int questionIndex = (int) (Math.random() * survey.getQuestionSize());
-        int answerIndex = (int) (Math.random() * survey.getQuestionSize());
+        int questionIndex = random.nextInt(survey.getQuestionsCount());
+        int answerIndex = random.nextInt(survey.getQuestion(questionIndex).getAnswersCount());
 
         int count = survey.getQuestion(questionIndex).getAnswer(answerIndex).getCount();
 

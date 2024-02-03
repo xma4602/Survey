@@ -1,21 +1,20 @@
-package com.xma;
+package com.xma.surveys;
 
-import com.xma.model.Question;
-import com.xma.model.Survey;
-import com.xma.model.generators.QuestionGenerator;
-import com.xma.model.generators.SurveyGenerator;
-import com.xma.model.statistic.QuestionStatistic;
+import com.xma.surveys.model.Question;
+import com.xma.surveys.model.Survey;
+import com.xma.surveys.model.generators.QuestionGenerator;
+import com.xma.surveys.model.generators.SurveyGenerator;
+import com.xma.surveys.model.statistic.QuestionStatistic;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class SurveyManagerTest {
-    SurveyGenerator surveyGenerator = new SurveyGenerator();
-    QuestionGenerator questionGenerator = new QuestionGenerator();
+    final SurveyGenerator surveyGenerator = new SurveyGenerator();
+    final QuestionGenerator questionGenerator = new QuestionGenerator();
     public static final int COUNT = 20;
 
     @Test
@@ -40,7 +39,7 @@ class SurveyManagerTest {
     @Test
     void getOpenedStatistics() {
         List<Question> questions = questionGenerator.generateList(COUNT, true);
-        Survey survey = new Survey(UUID.randomUUID(), questions);
+        Survey survey = new Survey(questions);
 
         List<QuestionStatistic> openedQuestions = new ArrayList<>();
         for (int i = 0; i < questions.size(); i += 2) {
@@ -56,7 +55,7 @@ class SurveyManagerTest {
     @Test
     void getClosedStatistics() {
         List<Question> questions = questionGenerator.generateList(COUNT, true);
-        Survey survey = new Survey(UUID.randomUUID(), questions);
+        Survey survey = new Survey(questions);
 
         List<QuestionStatistic> closedQuestions = new ArrayList<>();
         for (int i = 0; i < questions.size(); i += 2) {
@@ -73,9 +72,9 @@ class SurveyManagerTest {
     @Test
     void answer() {
         List<Question> questions = questionGenerator.generateList(COUNT, true);
-        Survey survey = new Survey(UUID.randomUUID(), questions);
+        Survey survey = new Survey(questions);
         int questionIndex = (int) (Math.random() * questions.size());
-        int answerIndex = (int) (Math.random() * questions.get(questionIndex).getAnswersSize());
+        int answerIndex = (int) (Math.random() * questions.get(questionIndex).getAnswersCount());
 
         int count1 = questions.get(questionIndex).getAnswer(answerIndex).getCount();
         questions.get(questionIndex).open();

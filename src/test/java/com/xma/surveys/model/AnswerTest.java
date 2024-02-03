@@ -1,15 +1,18 @@
-package com.xma.model;
+package com.xma.surveys.model;
 
+import com.xma.surveys.model.generators.QuestionGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class AnswerTest {
 
     Answer answer;
+    final QuestionGenerator questionGenerator = new QuestionGenerator();
+    final Random random = new Random();
 
     @BeforeEach
     void setUp() {
@@ -20,7 +23,7 @@ class AnswerTest {
     void incrementCount() {
         assertEquals(0, answer.getCount());
 
-        int len = (int) (Math.random() * 100);
+        int len = random.nextInt(100);
         for (int i = 1; i < len; i++) {
             answer.incrementCount();
             assertEquals(i, answer.getCount());
@@ -29,7 +32,7 @@ class AnswerTest {
 
     @Test
     void clearCount() {
-        int len = (int) (Math.random() * 100);
+        int len = random.nextInt(100);
         for (int i = 1; i < len; i++) {
             answer.incrementCount();
         }
@@ -37,16 +40,4 @@ class AnswerTest {
         assertEquals(0, answer.getCount());
     }
 
-    @Test
-    void putInQuestion() {
-        assertEquals(-1, answer.getIndex());
-        assertNull(answer.getQuestionId());
-
-        int index = (int) (Math.random() * 100);
-        UUID id = UUID.randomUUID();
-        answer.putInQuestion(index, id);
-
-        assertEquals(index, answer.getIndex());
-        assertEquals(id, answer.getQuestionId());
-    }
 }

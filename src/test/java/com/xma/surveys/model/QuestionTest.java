@@ -1,28 +1,29 @@
-package com.xma.model;
+package com.xma.surveys.model;
 
-import com.xma.model.generators.AnswerGenerator;
-import com.xma.model.generators.QuestionGenerator;
+import com.xma.surveys.model.generators.AnswerGenerator;
+import com.xma.surveys.model.generators.QuestionGenerator;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class QuestionTest {
-    public static final int COUNT = 20;
-    UUID id = UUID.randomUUID();
-    String topic = "test_topic";
-    QuestionGenerator questionGenerator = new QuestionGenerator();
-    AnswerGenerator answerGenerator = new AnswerGenerator();
-    
+    final int COUNT = 20;
+    final String topic = "test_topic";
+    final QuestionGenerator questionGenerator = new QuestionGenerator();
+    final AnswerGenerator answerGenerator = new AnswerGenerator();
+    final Random random = new Random(1000);
+
     @Test
     void isMultivariate() {
         Question question;
 
-        question = new Question(id, topic, QuestionType.SINGLE);
+        question = new Question(topic, QuestionType.SINGLE);
         assertFalse(question.isMultivariate());
 
-        question = new Question(id, topic, QuestionType.MULTI);
+        question = new Question(topic, QuestionType.MULTI);
         assertTrue(question.isMultivariate());
 
     }
@@ -32,8 +33,8 @@ class QuestionTest {
         Question question1;
         Question question2;
 
-        question1 = new Question(id, topic, QuestionType.SINGLE);
-        question2 = new Question(id, topic, QuestionType.MULTI);
+        question1 = new Question(topic, QuestionType.SINGLE);
+        question2 = new Question(topic, QuestionType.MULTI);
 
         assertTrue(question1.isEditable());
         assertTrue(question2.isEditable());
@@ -54,8 +55,8 @@ class QuestionTest {
         Question question1;
         Question question2;
 
-        question1 = new Question(id, topic, QuestionType.SINGLE);
-        question2 = new Question(id, topic, QuestionType.MULTI);
+        question1 = new Question(topic, QuestionType.SINGLE);
+        question2 = new Question(topic, QuestionType.MULTI);
 
         assertFalse(question1.isAnswered());
         assertFalse(question2.isAnswered());
@@ -76,8 +77,8 @@ class QuestionTest {
         Question question1;
         Question question2;
 
-        question1 = new Question(id, topic, QuestionType.SINGLE);
-        question2 = new Question(id, topic, QuestionType.MULTI);
+        question1 = new Question(topic, QuestionType.SINGLE);
+        question2 = new Question(topic, QuestionType.MULTI);
 
         assertFalse(question1.isVisible());
         assertFalse(question2.isVisible());
@@ -102,6 +103,7 @@ class QuestionTest {
         }
         assertIterableEquals(answers, question.getAnswers());
     }
+
     @Test
     void getAnswer() {
         var answers = answerGenerator.generatelist(COUNT);
@@ -110,20 +112,8 @@ class QuestionTest {
             question.addAnswer(i, answers.get(i));
         }
         for (int i = 0; i < COUNT; i++) {
-            assertEquals(answers.get(i), question.getAnswer(i));
+            Assertions.assertEquals(answers.get(i), question.getAnswer(i));
         }
-    }
-
-    @Test
-    void putInSurvey() {
-        Question question = questionGenerator.generate();
-        int index = (int) (Math.random() * COUNT);
-        UUID id = UUID.randomUUID();
-
-        question.putInSurvey(index, id);
-
-        assertEquals(index, question.getIndex());
-        assertEquals(id, question.getSurveyId());
     }
 
     @Test
@@ -131,7 +121,7 @@ class QuestionTest {
         Question question = questionGenerator.generate();
         for (int i = 0; i < COUNT; i++) {
             Answer answer = answerGenerator.generate();
-            int index = (int) (Math.random() * COUNT);
+            int index = random.nextInt(COUNT);
             index = question.addAnswer(index, answer);
             for (var answer1 : question.getAnswers()) {
                 if (answer1 == answer) {
@@ -146,7 +136,7 @@ class QuestionTest {
     void removeAnswer() {
         Question question = questionGenerator.generate(true);
         Answer answer = answerGenerator.generate();
-        int index = question.addAnswer((int) (Math.random() * COUNT), answer);
+        int index = question.addAnswer(random.nextInt(COUNT), answer);
 
         assertEquals(answer, question.removeAnswer(index));
     }
@@ -164,8 +154,8 @@ class QuestionTest {
     @Test
     void swapAnswers() {
         Question question = questionGenerator.generate(true);
-        int index1 = (int) (Math.random() * question.getAnswersSize());
-        int index2 = (int) (Math.random() *  question.getAnswersSize());
+        int index1 = random.nextInt(question.getAnswersCount());
+        int index2 = random.nextInt(question.getAnswersCount());
         Answer answer1 = question.getAnswer(index1);
         Answer answer2 = question.getAnswer(index2);
 
@@ -181,7 +171,7 @@ class QuestionTest {
         Question question = questionGenerator.generate(true);
         question.open();
 
-        int index = (int) (Math.random() * question.getAnswersSize());
+        int index = random.nextInt(question.getAnswersCount());
         int count = question.getAnswer(index).getCount();
 
         question.answer(index);

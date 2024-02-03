@@ -1,33 +1,24 @@
-package com.xma.model;
+package com.xma.surveys.model;
 
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.UUID;
 
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
 public class Survey {
-    @Getter
-    private UUID surveyId;
+
     private final List<Question> questions = new ArrayList<>();
 
-    public Survey(UUID surveyId) {
-        this.surveyId = surveyId;
+    public Survey(Iterable<Question> questions) {
+        questions.forEach(this::addQuestion);
     }
 
-    public Survey(UUID surveyId, Iterable<Question> questions) {
-        this(surveyId);
-        questions.forEach(answer -> addQuestion(this.questions.size(), answer));
-    }
-
-    public int getQuestionSize() {
+    public int getQuestionsCount() {
         return questions.size();
     }
 
@@ -40,16 +31,19 @@ public class Survey {
     }
 
     public int addQuestion(int index, Question question) {
+        if (index < 0) throw new IndexOutOfBoundsException("Index must be greater then 0, but was " + index);
         if (index > questions.size()) {
             index = questions.size();
-        } else {
-            for (int idx = index; idx < questions.size(); idx++) {
-                questions.get(idx).putInSurvey(idx, surveyId);
-            }
         }
         questions.add(index, question);
-        question.putInSurvey(index, surveyId);
+        question.setSurvey(this);
         return index;
+    }
+
+    public int addQuestion(Question question) {
+        questions.add(question);
+        question.setSurvey(this);
+        return questions.size();
     }
 
     public Question removeQuestion(int index) {
@@ -58,11 +52,10 @@ public class Survey {
 
     public void swapQuestions(int index1, int index2) {
         if (index1 != index2) {
-            Question question1 = questions.get(index1);
-            Question question2 = questions.get(index2);
-            question1.putInSurvey(index2, surveyId);
-            question2.putInSurvey(index1, surveyId);
-            questions.sort(Comparator.comparing(Question::getIndex));
+            Question question1 = questions.remove(index1);
+            Question question2 = questions.remove(index2);
+            questions.add(index2, question1);
+            questions.add(index1, question2);
         }
     }
 

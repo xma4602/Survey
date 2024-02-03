@@ -1,12 +1,18 @@
-package com.xma.model.generators;
+package com.xma.surveys.model.generators;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.IntStream;
 
 public abstract class Generator<T> {
-    public int count = 0;
+    public static final int LENGTH = 50;
 
-    public static int LENGTH = 50;
+    protected int count = 0;
+    protected final Random random = new Random(100);
+
+    protected int generateLength() {
+        return random.nextInt(LENGTH) + 1;
+    }
 
     public T generate() {
         return generate(false);

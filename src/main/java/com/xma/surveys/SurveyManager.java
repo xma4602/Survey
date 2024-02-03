@@ -1,10 +1,9 @@
-package com.xma;
+package com.xma.surveys;
 
-import com.xma.model.Question;
-import com.xma.model.Survey;
-import com.xma.model.statistic.QuestionStatistic;
+import com.xma.surveys.model.Question;
+import com.xma.surveys.model.Survey;
+import com.xma.surveys.model.statistic.QuestionStatistic;
 
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class SurveyManager {
