@@ -34,3 +34,6 @@ build/
 ### Mac OS ###
 .DS_Store
 /src/main/resources/main.py
+/src/main/resources/venv/
+/src/main/resources/surveys_data.json
+/src/main/resources/.idea
