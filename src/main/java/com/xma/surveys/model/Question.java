@@ -1,9 +1,6 @@
 package com.xma.surveys.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +16,14 @@ public class Question {
     @Getter
     @Setter
     private Survey survey;
-    private QuestionStatus status = QuestionStatus.EDIT_ONLY;
+    private QuestionStatus status;
     private final QuestionType type;
     private final List<Answer> answers = new ArrayList<>();
 
     public Question(String topic, QuestionType type) {
         this.topic = topic;
         this.type = type;
+        this.status = QuestionStatus.EDIT_ONLY;
     }
 
     public Question(String topic, QuestionType type, Survey survey) {

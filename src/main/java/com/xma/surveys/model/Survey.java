@@ -1,20 +1,27 @@
 package com.xma.surveys.model;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@NoArgsConstructor
 @ToString
 @EqualsAndHashCode
 public class Survey {
 
+    @Getter
+    private final String title;
     private final List<Question> questions = new ArrayList<>();
 
-    public Survey(Iterable<Question> questions) {
+    public Survey(String title) {
+        this.title = title;
+    }
+
+    public Survey(String title, Iterable<Question> questions, String title1) {
+        this(title);
         questions.forEach(this::addQuestion);
     }
 
