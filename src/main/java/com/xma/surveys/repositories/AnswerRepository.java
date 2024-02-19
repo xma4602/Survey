@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -12,7 +13,7 @@ import java.util.UUID;
 public class AnswerRepository {
     private final EntityManager entityManager;
 
-    public Optional<AnswerEntity> findAnswer(UUID questionId, int answerIndex) {
+    public Optional<AnswerEntity> find(UUID questionId, int answerIndex) {
         try {
             return Optional.of(entityManager
                     .createQuery(
@@ -24,17 +25,6 @@ public class AnswerRepository {
         } catch (NoResultException e) {
             return Optional.empty();
         }
-    }
-
-    public int incrementAnswerCount(UUID questionId, int answerIndex) {
-        return entityManager
-                .createQuery(
-                        "update AnswerEntity set count = count + 1 where id.questionId = :id and id.index = :index",
-                        Integer.class)
-                .setParameter("id", questionId)
-                .setParameter("index", answerIndex)
-                .getSingleResult();
-
     }
 
     public AnswerEntity save(AnswerEntity answer) {
@@ -49,6 +39,29 @@ public class AnswerRepository {
         answer = entityManager.merge(answer);
         entityManager.getTransaction().commit();
         return answer;
+    }
+
+    public boolean delete(UUID questionId) {
+        return entityManager.createQuery("delete from AnswerEntity where id.questionId = :id")
+                .setParameter("id", questionId)
+                .executeUpdate() == 1;
+    }
+
+    public List<AnswerEntity> findAll() {
+        return entityManager
+                .createQuery("from AnswerEntity", AnswerEntity.class)
+                .getResultList();
+    }
+
+    public int incrementCount(UUID questionId, int answerIndex) {
+        return entityManager
+                .createQuery(
+                        "update AnswerEntity set count = count + 1 where id.questionId = :id and id.index = :index",
+                        Integer.class)
+                .setParameter("id", questionId)
+                .setParameter("index", answerIndex)
+                .getSingleResult();
+
     }
 
 }

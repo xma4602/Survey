@@ -9,9 +9,11 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
-@NoArgsConstructor
+
 @Entity
-@Table(name = "questions", schema = "dev")
+@Table(name = "questions")
+@NoArgsConstructor
+@EqualsAndHashCode
 public class QuestionEntity {
 
     @EmbeddedId
@@ -34,7 +36,7 @@ public class QuestionEntity {
     @Setter
     private QuestionType type;
 
-    @OneToMany(mappedBy = "question_id", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "id.questionId", fetch = FetchType.LAZY)
     @Getter
     @Setter
     private List<AnswerEntity> answers;
@@ -56,7 +58,8 @@ public class QuestionEntity {
 
     @Embeddable
     @Data
-    static class QuestionEntityId implements Serializable {
+    @NoArgsConstructor
+    public static class QuestionEntityId implements Serializable {
 
         @JoinColumn(name = "survey_id")
         private UUID surveyId;
