@@ -5,6 +5,7 @@ import com.xma.surveys.model.Survey;
 import com.xma.surveys.model.generators.QuestionGenerator;
 import com.xma.surveys.model.generators.SurveyGenerator;
 import com.xma.surveys.model.statistic.QuestionStatistic;
+import com.xma.surveys.services.SurveyManager;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ class SurveyManagerTest {
     @Test
     void getOpenedStatistics() {
         List<Question> questions = questionGenerator.generateList(COUNT, true);
-        Survey survey = new Survey(questions);
+        Survey survey = new Survey("test_survey", questions);
 
         List<QuestionStatistic> openedQuestions = new ArrayList<>();
         for (int i = 0; i < questions.size(); i += 2) {
@@ -55,7 +56,7 @@ class SurveyManagerTest {
     @Test
     void getClosedStatistics() {
         List<Question> questions = questionGenerator.generateList(COUNT, true);
-        Survey survey = new Survey(questions);
+        Survey survey = new Survey("test_survey", questions);
 
         List<QuestionStatistic> closedQuestions = new ArrayList<>();
         for (int i = 0; i < questions.size(); i += 2) {
@@ -72,7 +73,7 @@ class SurveyManagerTest {
     @Test
     void answer() {
         List<Question> questions = questionGenerator.generateList(COUNT, true);
-        Survey survey = new Survey(questions);
+        Survey survey = new Survey("test_survey", questions);
         int questionIndex = (int) (Math.random() * questions.size());
         int answerIndex = (int) (Math.random() * questions.get(questionIndex).getAnswersCount());
 
