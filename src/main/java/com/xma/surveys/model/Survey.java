@@ -20,7 +20,7 @@ public class Survey {
         this.title = title;
     }
 
-    public Survey(String title, Iterable<Question> questions, String title1) {
+    public Survey(String title, Iterable<Question> questions) {
         this(title);
         questions.forEach(this::addQuestion);
     }

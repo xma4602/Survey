@@ -15,8 +15,10 @@ public class SurveyEntity {
     @Column(name = "survey_id")
     @GeneratedValue
     private UUID surveyId;
+
     @Column(name = "title")
     private String title;
-    @OneToMany(mappedBy = "survey_id")
+
+    @OneToMany(mappedBy = "survey_id", fetch = FetchType.LAZY)
     private List<QuestionEntity> questions;
 }
