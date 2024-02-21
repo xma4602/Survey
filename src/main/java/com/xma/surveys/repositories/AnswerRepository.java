@@ -13,14 +13,13 @@ import java.util.UUID;
 public class AnswerRepository {
     private final EntityManager entityManager;
 
-    public Optional<AnswerEntity> find(UUID questionId, int answerIndex) {
+    public Optional<AnswerEntity> find(UUID answerId) {
         try {
             return Optional.of(entityManager
                     .createQuery(
-                            "from AnswerEntity where id.questionId = :id and id.index = :index",
+                            "from AnswerEntity where answerId = :id",
                             AnswerEntity.class)
-                    .setParameter("id", questionId)
-                    .setParameter("index", answerIndex)
+                    .setParameter("id", answerId)
                     .getSingleResult());
         } catch (NoResultException e) {
             return Optional.empty();
@@ -41,9 +40,9 @@ public class AnswerRepository {
         return answer;
     }
 
-    public boolean delete(UUID questionId) {
-        return entityManager.createQuery("delete from AnswerEntity where id.questionId = :id")
-                .setParameter("id", questionId)
+    public boolean delete(UUID answerId) {
+        return entityManager.createQuery("delete from AnswerEntity where answerId = :id")
+                .setParameter("id", answerId)
                 .executeUpdate() == 1;
     }
 
@@ -53,13 +52,12 @@ public class AnswerRepository {
                 .getResultList();
     }
 
-    public int incrementCount(UUID questionId, int answerIndex) {
+    public int incrementCount(UUID answerId) {
         return entityManager
                 .createQuery(
-                        "update AnswerEntity set count = count + 1 where id.questionId = :id and id.index = :index",
+                        "update AnswerEntity set count = count + 1 where answerId = :id",
                         Integer.class)
-                .setParameter("id", questionId)
-                .setParameter("index", answerIndex)
+                .setParameter("id", answerId)
                 .getSingleResult();
 
     }

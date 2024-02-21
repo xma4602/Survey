@@ -1,6 +1,5 @@
 package com.xma.surveys.repositories;
 
-import com.xma.surveys.entities.QuestionEntity;
 import com.xma.surveys.entities.SurveyEntity;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -42,16 +41,4 @@ public class SurveyRepository {
                 .createQuery("from SurveyEntity", SurveyEntity.class)
                 .getResultList();
     }
-
-    public List<QuestionEntity> findSurveyQuestions(UUID surveyId) {
-        return entityManager
-                .createQuery(
-                        "from QuestionEntity where id.surveyId = :id order by id.index",
-                        QuestionEntity.class)
-                .setParameter("id", surveyId)
-                .getResultList();
-
-    }
-
-
 }

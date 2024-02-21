@@ -2,15 +2,15 @@ SET search_path TO test;
 
 CREATE TABLE "answers"
 (
-    question_id UUID NOT NULL,
-    index       INT  NOT NULL,
+    answer_id   UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    question_id UUID             DEFAULT NULL,
+    index       INT              DEFAULT NULL,
     text        TEXT NOT NULL,
-    FOREIGN KEY (question_id)
-        REFERENCES "questions" (question_id)
-        ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (question_id) REFERENCES "questions" (question_id),
+    UNIQUE (answer_id, question_id, index)
 );
 
-INSERT INTO "answers" (question_id, index, text)
+INSERT INTO "answers" (answer_id, question_id, index, text)
 VALUES ('f728b4fa-4248-4e3a-8a5d-2f346baa9455', 0, 'Красный'),
        ('f728b4fa-4248-4e3a-8a5d-2f346baa9455', 1, 'Зеленый'),
        ('f728b4fa-4248-4e3a-8a5d-2f346baa9455', 2, 'Синий'),

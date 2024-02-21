@@ -1,8 +1,6 @@
 package com.xma.surveys.repositories;
 
-import com.xma.surveys.entities.AnswerEntity;
 import com.xma.surveys.entities.QuestionEntity;
-import com.xma.surveys.entities.SurveyEntity;
 import com.xma.surveys.model.QuestionStatus;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +32,7 @@ public class QuestionRepository {
     }
 
     public boolean delete(UUID questionId) {
-        return entityManager.createQuery("delete from QuestionEntity where id.questionId = :id")
+        return entityManager.createQuery("delete from QuestionEntity where questionId = :id")
                 .setParameter("id", questionId)
                 .executeUpdate() == 1;
     }
@@ -43,16 +41,6 @@ public class QuestionRepository {
         return entityManager
                 .createQuery("from QuestionEntity", QuestionEntity.class)
                 .getResultList();
-    }
-
-    public List<AnswerEntity> findQuestionAnswers(UUID questionId) {
-        return entityManager
-                .createQuery(
-                        "from AnswerEntity where id.questionId = :id order by id.index",
-                        AnswerEntity.class)
-                .setParameter("id", questionId)
-                .getResultList();
-
     }
 
     public List<QuestionEntity> findClosedQuestions() {
