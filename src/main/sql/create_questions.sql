@@ -6,5 +6,6 @@ CREATE TABLE "questions"
     topic       TEXT NOT NULL,
     status      TEXT NOT NULL    DEFAULT 'EDIT_ONLY',
     type        TEXT NOT NULL    DEFAULT 'SINGLE',
-    FOREIGN KEY (survey_id) REFERENCES "surveys" (survey_id)
-)
+    FOREIGN KEY (survey_id) REFERENCES "surveys" (survey_id),
+    UNIQUE (survey_id, question_id, index)
+);
