@@ -59,6 +59,7 @@ for n in range(len(data)):
         answer = {"answer_id": get_uuid(),
                   "question_id": question_id,
                   "index": index,
+                  "count": 0,
                   "text": answers[index]}
         question["answers"].append(answer)
 
@@ -78,7 +79,7 @@ questions_file = open(questions_path, 'w+', encoding='utf-8')
 questions_file.write("INSERT INTO \"questions\" (question_id, survey_id, index, topic) VALUES\n")
 
 answers_file = open(answers_path, 'w+', encoding='utf-8')
-answers_file.write("INSERT INTO \"answers\" (answer_id, question_id, index, text) VALUES\n")
+answers_file.write("INSERT INTO \"answers\" (answer_id, question_id, index, text, count) VALUES\n")
 
 for survey in surveys:
     end = ';' if survey == surveys[-1] else ','
@@ -95,8 +96,8 @@ for survey in surveys:
         answers = question["answers"]
         for answer in answers:
             end = ';' if survey == surveys[-1] and question == questions[-1] and answer == answers[-1] else ','
-            s = "('{}','{}', {}, '{}')".format(answer["answer_id"], answer["question_id"], answer['index'],
-                                               answer['text'])
+            s = "('{}','{}', {}, '{}', {})".format(answer["answer_id"], answer["question_id"], answer['index'],
+                                               answer['text'], answer['count'])
             answers_file.write(s + end + '\n')
 
 surveys_file.close()
