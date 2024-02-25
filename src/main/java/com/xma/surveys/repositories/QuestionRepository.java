@@ -32,9 +32,12 @@ public class QuestionRepository {
     }
 
     public boolean delete(UUID questionId) {
-        return entityManager.createQuery("delete from QuestionEntity where questionId = :id")
+        entityManager.getTransaction().begin();
+        boolean deleted = entityManager.createQuery("delete from QuestionEntity where questionId = :id")
                 .setParameter("id", questionId)
                 .executeUpdate() == 1;
+        entityManager.getTransaction().commit();
+        return deleted;
     }
 
     public List<QuestionEntity> findAll() {

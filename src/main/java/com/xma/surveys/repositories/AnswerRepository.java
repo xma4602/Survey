@@ -41,9 +41,12 @@ public class AnswerRepository {
     }
 
     public boolean delete(UUID answerId) {
-        return entityManager.createQuery("delete from AnswerEntity where answerId = :id")
+        entityManager.getTransaction().begin();
+        boolean deleted = entityManager.createQuery("delete from AnswerEntity where answerId = :id")
                 .setParameter("id", answerId)
                 .executeUpdate() == 1;
+        entityManager.getTransaction().commit();
+        return deleted;
     }
 
     public List<AnswerEntity> findAll() {
@@ -53,13 +56,10 @@ public class AnswerRepository {
     }
 
     public int incrementCount(UUID answerId) {
-        return entityManager
-                .createQuery(
-                        "update AnswerEntity set count = count + 1 where answerId = :id",
-                        Integer.class)
-                .setParameter("id", answerId)
-                .getSingleResult();
-
+        AnswerEntity answerEntity = entityManager.find(AnswerEntity.class, answerId);
+        int count = answerEntity.incrementCount();
+        entityManager.persist(answerEntity);
+        return count;
     }
 
 }

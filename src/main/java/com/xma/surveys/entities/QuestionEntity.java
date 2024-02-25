@@ -17,14 +17,14 @@ import java.util.UUID;
 public class QuestionEntity {
 
     @Id
-    @Column(name = "question_id")
     @GeneratedValue
+    @Column(name = "question_id")
     private UUID questionId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private SurveyEntity survey;
+    @Column(name = "survey_id")
+    private UUID surveyId;
 
-    @OneToMany(mappedBy = "question_id", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "questionId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<AnswerEntity> answers;
 
     @Column(name = "index")

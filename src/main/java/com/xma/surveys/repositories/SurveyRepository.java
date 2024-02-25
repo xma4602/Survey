@@ -26,14 +26,17 @@ public class SurveyRepository {
     public SurveyEntity update(SurveyEntity survey) {
         entityManager.getTransaction().begin();
         survey = entityManager.merge(survey);
-        entityManager.getTransaction().begin();
+        entityManager.getTransaction().commit();
         return survey;
     }
 
     public boolean delete(UUID serveyId) {
-        return entityManager.createQuery("delete from SurveyEntity where id = :id")
+        entityManager.getTransaction().begin();
+        boolean deleted = entityManager.createQuery("delete from SurveyEntity where id = :id")
                 .setParameter("id", serveyId)
                 .executeUpdate() == 1;
+        entityManager.getTransaction().commit();
+        return deleted;
     }
 
     public List<SurveyEntity> findAll() {

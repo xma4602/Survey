@@ -17,8 +17,8 @@ public class AnswerEntity {
     @Column(name = "answer_id")
     private UUID answerId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private QuestionEntity question;
+    @Column(name = "question_id")
+    private UUID questionId;
 
     @Column(name = "index")
     private int index;
@@ -29,4 +29,14 @@ public class AnswerEntity {
     @Column(name = "count")
     private int count = 0;
 
+    public AnswerEntity(UUID questionId, int index, String text, int count) {
+        this.questionId = questionId;
+        this.index = index;
+        this.text = text;
+        this.count = count;
+    }
+
+    public int incrementCount() {
+        return ++count;
+    }
 }

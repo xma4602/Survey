@@ -19,6 +19,6 @@ public class SurveyEntity {
     @Column(name = "title")
     private String title;
 
-    @OneToMany(mappedBy = "id.surveyId", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "surveyId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<QuestionEntity> questions;
 }

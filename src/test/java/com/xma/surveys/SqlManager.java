@@ -15,19 +15,33 @@ import java.nio.file.Path;
 
 public class SqlManager {
     private static EntityManagerFactory entityManagerFactory;
+    private static EntityManager entityManager;
 
-    public static EntityManager openSession() {
+    public static void openSession() {
         entityManagerFactory = new Configuration()
-                .configure("hibernate.cfg.xml")
+                .configure("hibernate.test.cfg.xml")
                 .addAnnotatedClass(AnswerEntity.class)
                 .addAnnotatedClass(QuestionEntity.class)
                 .addAnnotatedClass(SurveyEntity.class)
                 .buildSessionFactory();
-        return entityManagerFactory.createEntityManager();
+        SqlManager.run("create.sql");
+    }
 
+    public static EntityManager insertData() {
+        SqlManager.run("insert.sql");
+        entityManager = entityManagerFactory.createEntityManager();
+        return entityManager;
+    }
+
+    public static void deleteData() {
+        SqlManager.run("delete.sql");
+        if (entityManager != null) {
+            entityManager.close();
+        }
     }
 
     public static void closeSession() {
+        SqlManager.run("drop.sql");
         if (entityManagerFactory != null) {
             entityManagerFactory.close();
         }
@@ -45,4 +59,5 @@ public class SqlManager {
             throw new RuntimeException(e);
         }
     }
+
 }
