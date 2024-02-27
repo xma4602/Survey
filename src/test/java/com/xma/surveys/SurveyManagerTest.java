@@ -39,7 +39,7 @@ class SurveyManagerTest {
     @Test
     void getOpenedStatistics() {
         List<Question> questions = questionGenerator.generateList(COUNT, true);
-        Survey survey = new Survey(questions);
+        Survey survey = new Survey("text", questions);
 
         List<QuestionStatistic> openedQuestions = new ArrayList<>();
         for (int i = 0; i < questions.size(); i += 2) {
@@ -55,7 +55,7 @@ class SurveyManagerTest {
     @Test
     void getClosedStatistics() {
         List<Question> questions = questionGenerator.generateList(COUNT, true);
-        Survey survey = new Survey(questions);
+        Survey survey = new Survey("text", questions);
 
         List<QuestionStatistic> closedQuestions = new ArrayList<>();
         for (int i = 0; i < questions.size(); i += 2) {
@@ -72,7 +72,7 @@ class SurveyManagerTest {
     @Test
     void answer() {
         List<Question> questions = questionGenerator.generateList(COUNT, true);
-        Survey survey = new Survey(questions);
+        Survey survey = new Survey("text", questions);
         int questionIndex = (int) (Math.random() * questions.size());
         int answerIndex = (int) (Math.random() * questions.get(questionIndex).getAnswersCount());
 
