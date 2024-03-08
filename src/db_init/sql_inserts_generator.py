@@ -27,11 +27,11 @@ def get_uuid():
     return uuid.UUID(int=rd.getrandbits(128), version=4)
 
 
-data_path = r".\data.json"
+data_path = r"data.json"
 result_path = r".\result.json"
-questions_path = r".\sql\insert_questions.sql"
-answers_path = r".\sql\insert_answers.sql"
-surveys_path = r".\sql\insert_surveys.sql"
+questions_path = r".\insert_questions.sql"
+answers_path = r".\insert_answers.sql"
+surveys_path = r".\insert_surveys.sql"
 
 # ==============================================================================
 # чтение данных вопросов, форматирование и сохранение в более удобный вариант
