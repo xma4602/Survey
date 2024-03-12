@@ -1,4 +1,4 @@
-package com.xma.surveys;
+package com.xma.surveys.services;
 
 import com.xma.surveys.model.Question;
 import com.xma.surveys.model.Survey;

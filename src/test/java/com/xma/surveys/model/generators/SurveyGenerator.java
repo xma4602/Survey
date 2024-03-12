@@ -18,7 +18,7 @@ public class SurveyGenerator extends Generator<Survey> {
             int len = generateLength();
             questions = questionGenerator.generateList(len, true);
         }
-        return new Survey("text" + ++count, questions);
+        return new Survey("опрос " + count++, questions);
     }
 
 }
