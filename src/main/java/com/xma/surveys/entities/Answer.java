@@ -10,7 +10,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "answers",
         uniqueConstraints = @UniqueConstraint(columnNames = {"answer_id", "question_id", "index"}))
-public class AnswerEntity {
+public class Answer {
 
     @Id
     @GeneratedValue
@@ -29,7 +29,7 @@ public class AnswerEntity {
     @Column(name = "count")
     private int count = 0;
 
-    public AnswerEntity(UUID questionId, int index, String text, int count) {
+    public Answer(UUID questionId, int index, String text, int count) {
         this.questionId = questionId;
         this.index = index;
         this.text = text;
@@ -38,5 +38,9 @@ public class AnswerEntity {
 
     public int incrementCount() {
         return ++count;
+    }
+
+    public void clearCount() {
+        count = 0;
     }
 }

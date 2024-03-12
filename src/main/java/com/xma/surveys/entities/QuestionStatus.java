@@ -1,4 +1,4 @@
-package com.xma.surveys.model;
+package com.xma.surveys.entities;
 
 public enum QuestionStatus {
     EDIT_ONLY, ANSWERS_ONLY, ARCHIVED;

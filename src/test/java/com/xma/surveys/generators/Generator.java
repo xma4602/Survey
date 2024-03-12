@@ -1,4 +1,4 @@
-package com.xma.surveys.model.generators;
+package com.xma.surveys.generators;
 
 import java.util.List;
 import java.util.Random;

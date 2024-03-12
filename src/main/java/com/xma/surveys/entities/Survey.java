@@ -10,7 +10,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "surveys")
-public class SurveyEntity {
+public class Survey {
     @Id
     @Column(name = "survey_id")
     @GeneratedValue
@@ -20,5 +20,5 @@ public class SurveyEntity {
     private String title;
 
     @OneToMany(mappedBy = "surveyId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<QuestionEntity> questions;
+    private List<Question> questions;
 }

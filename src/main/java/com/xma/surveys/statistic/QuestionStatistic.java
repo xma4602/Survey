@@ -1,7 +1,7 @@
-package com.xma.surveys.model.statistic;
+package com.xma.surveys.statistic;
 
-import com.xma.surveys.model.Answer;
-import com.xma.surveys.model.Question;
+import com.xma.surveys.entities.Answer;
+import com.xma.surveys.entities.Question;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -21,7 +21,7 @@ public class QuestionStatistic {
         List<Integer> counts = new ArrayList<>();
         List<Double> percents = new ArrayList<>();
 
-        answerStatistics = new AnswerStatistic[question.getAnswersCount()];
+        answerStatistics = new AnswerStatistic[question.getAnswers().size()];
         int totalCount = 0;
 
         int i = 0;

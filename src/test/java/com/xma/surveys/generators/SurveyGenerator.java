@@ -1,8 +1,8 @@
-package com.xma.surveys.model.generators;
+package com.xma.surveys.generators;
 
 
-import com.xma.surveys.model.Question;
-import com.xma.surveys.model.Survey;
+import com.xma.surveys.entities.Question;
+import com.xma.surveys.entities.Survey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,10 @@ public class SurveyGenerator extends Generator<Survey> {
             int len = generateLength();
             questions = questionGenerator.generateList(len, true);
         }
-        return new Survey("опрос " + count++, questions);
+        Survey survey = new Survey();
+        survey.setTitle("text" + ++count);
+        survey.setQuestions(questions);
+        return survey;
     }
 
 }

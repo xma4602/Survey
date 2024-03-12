@@ -1,6 +1,6 @@
 package com.xma.surveys.repositories;
 
-import com.xma.surveys.entities.SurveyEntity;
+import com.xma.surveys.entities.Survey;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 
@@ -12,18 +12,18 @@ import java.util.UUID;
 public class SurveyRepository {
     private final EntityManager entityManager;
 
-    public Optional<SurveyEntity> find(UUID surveyId) {
-        return Optional.of(entityManager.find(SurveyEntity.class, surveyId));
+    public Optional<Survey> find(UUID surveyId) {
+        return Optional.of(entityManager.find(Survey.class, surveyId));
     }
 
-    public SurveyEntity save(SurveyEntity survey) {
+    public Survey save(Survey survey) {
         entityManager.getTransaction().begin();
         entityManager.persist(survey);
         entityManager.getTransaction().commit();
         return survey;
     }
 
-    public SurveyEntity update(SurveyEntity survey) {
+    public Survey update(Survey survey) {
         entityManager.getTransaction().begin();
         survey = entityManager.merge(survey);
         entityManager.getTransaction().commit();
@@ -32,16 +32,16 @@ public class SurveyRepository {
 
     public boolean delete(UUID serveyId) {
         entityManager.getTransaction().begin();
-        boolean deleted = entityManager.createQuery("delete from SurveyEntity where id = :id")
+        boolean deleted = entityManager.createQuery("delete from Survey where id = :id")
                 .setParameter("id", serveyId)
                 .executeUpdate() == 1;
         entityManager.getTransaction().commit();
         return deleted;
     }
 
-    public List<SurveyEntity> findAll() {
+    public List<Survey> findAll() {
         return entityManager
-                .createQuery("from SurveyEntity", SurveyEntity.class)
+                .createQuery("from Survey", Survey.class)
                 .getResultList();
     }
 }

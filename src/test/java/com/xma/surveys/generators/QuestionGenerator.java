@@ -1,8 +1,8 @@
-package com.xma.surveys.model.generators;
+package com.xma.surveys.generators;
 
-import com.xma.surveys.model.Answer;
-import com.xma.surveys.model.Question;
-import com.xma.surveys.model.QuestionType;
+import com.xma.surveys.entities.Answer;
+import com.xma.surveys.entities.Question;
+import com.xma.surveys.entities.QuestionType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +18,11 @@ public class QuestionGenerator extends Generator<Question> {
             int len = generateLength();
             answers = answerGenerator.generateList(len, true);
         }
-        return new Question(
-                "text" + count++,
-                types[random.nextInt(types.length)],
-                answers
-        );
+        Question question = new Question();
+        question.setTopic("text" + count++);
+        question.setType(types[random.nextInt(types.length)]);
+        question.setAnswers(answers);
+        return question;
     }
 
 }

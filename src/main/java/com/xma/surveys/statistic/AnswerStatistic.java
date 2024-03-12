@@ -1,6 +1,6 @@
-package com.xma.surveys.model.statistic;
+package com.xma.surveys.statistic;
 
-import com.xma.surveys.model.Answer;
+import com.xma.surveys.entities.Answer;
 import lombok.Getter;
 import lombok.Setter;
 

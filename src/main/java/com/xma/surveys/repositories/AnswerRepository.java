@@ -1,6 +1,6 @@
 package com.xma.surveys.repositories;
 
-import com.xma.surveys.entities.AnswerEntity;
+import com.xma.surveys.entities.Answer;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +13,12 @@ import java.util.UUID;
 public class AnswerRepository {
     private final EntityManager entityManager;
 
-    public Optional<AnswerEntity> find(UUID answerId) {
+    public Optional<Answer> find(UUID answerId) {
         try {
             return Optional.of(entityManager
                     .createQuery(
-                            "from AnswerEntity where answerId = :id",
-                            AnswerEntity.class)
+                            "from Answer where answerId = :id",
+                            Answer.class)
                     .setParameter("id", answerId)
                     .getSingleResult());
         } catch (NoResultException e) {
@@ -26,14 +26,14 @@ public class AnswerRepository {
         }
     }
 
-    public AnswerEntity save(AnswerEntity answer) {
+    public Answer save(Answer answer) {
         entityManager.getTransaction().begin();
         entityManager.persist(answer);
         entityManager.getTransaction().commit();
         return answer;
     }
 
-    public AnswerEntity update(AnswerEntity answer) {
+    public Answer update(Answer answer) {
         entityManager.getTransaction().begin();
         answer = entityManager.merge(answer);
         entityManager.getTransaction().commit();
@@ -42,23 +42,23 @@ public class AnswerRepository {
 
     public boolean delete(UUID answerId) {
         entityManager.getTransaction().begin();
-        boolean deleted = entityManager.createQuery("delete from AnswerEntity where answerId = :id")
+        boolean deleted = entityManager.createQuery("delete from Answer where answerId = :id")
                 .setParameter("id", answerId)
                 .executeUpdate() == 1;
         entityManager.getTransaction().commit();
         return deleted;
     }
 
-    public List<AnswerEntity> findAll() {
+    public List<Answer> findAll() {
         return entityManager
-                .createQuery("from AnswerEntity", AnswerEntity.class)
+                .createQuery("from Answer", Answer.class)
                 .getResultList();
     }
 
     public int incrementCount(UUID answerId) {
-        AnswerEntity answerEntity = entityManager.find(AnswerEntity.class, answerId);
-        int count = answerEntity.incrementCount();
-        entityManager.persist(answerEntity);
+        Answer answer = entityManager.find(Answer.class, answerId);
+        int count = answer.incrementCount();
+        entityManager.persist(answer);
         return count;
     }
 

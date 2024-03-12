@@ -1,10 +1,10 @@
 package com.xma.surveys;
 
-import com.xma.surveys.model.Question;
-import com.xma.surveys.model.Survey;
+import com.xma.surveys.entities.Question;
+import com.xma.surveys.entities.Survey;
 import com.xma.surveys.model.generators.QuestionGenerator;
 import com.xma.surveys.model.generators.SurveyGenerator;
-import com.xma.surveys.model.statistic.QuestionStatistic;
+import com.xma.surveys.statistic.QuestionStatistic;
 import com.xma.surveys.services.SurveyManager;
 import org.junit.jupiter.api.Test;
 

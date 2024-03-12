@@ -1,8 +1,8 @@
 package com.xma.surveys.services;
 
-import com.xma.surveys.model.Question;
-import com.xma.surveys.model.Survey;
-import com.xma.surveys.model.statistic.QuestionStatistic;
+import com.xma.surveys.entities.Question;
+import com.xma.surveys.entities.Survey;
+import com.xma.surveys.statistic.QuestionStatistic;
 
 import java.util.stream.StreamSupport;
 
@@ -26,9 +26,5 @@ public class SurveyManager {
                 .filter(question -> !question.isVisible() && !question.isEditable())
                 .map(QuestionStatistic::new)
                 .toList();
-    }
-
-    public static int answer(Survey survey, int questionIndex, int answerIndex) {
-        return survey.answer(questionIndex, answerIndex);
     }
 }
