@@ -40,6 +40,13 @@ public class QuestionRepository {
         return deleted;
     }
 
+    public List<Question> findBySurveyId(UUID id) {
+        return entityManager
+                .createQuery("from Question where surveyId = :id", Question.class)
+                .setParameter("id", id)
+                .getResultList();
+    }
+
     public List<Question> findAll() {
         return entityManager
                 .createQuery("from Question", Question.class)

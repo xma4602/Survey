@@ -55,11 +55,10 @@ public class AnswerRepository {
                 .getResultList();
     }
 
-    public int incrementCount(UUID answerId) {
-        Answer answer = entityManager.find(Answer.class, answerId);
-        int count = answer.incrementCount();
-        entityManager.persist(answer);
-        return count;
+    public List<Answer> findByQuestionId(UUID id) {
+        return entityManager
+                .createQuery("from Answer where questionId = :id", Answer.class)
+                .setParameter("id", id)
+                .getResultList();
     }
-
 }

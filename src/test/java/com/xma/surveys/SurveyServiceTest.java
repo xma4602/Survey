@@ -2,10 +2,10 @@ package com.xma.surveys;
 
 import com.xma.surveys.entities.Question;
 import com.xma.surveys.entities.Survey;
-import com.xma.surveys.model.generators.QuestionGenerator;
-import com.xma.surveys.model.generators.SurveyGenerator;
+import com.xma.surveys.generators.QuestionGenerator;
+import com.xma.surveys.generators.SurveyGenerator;
 import com.xma.surveys.statistic.QuestionStatistic;
-import com.xma.surveys.services.SurveyManager;
+import com.xma.surveys.services.SurveyService;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SurveyManagerTest {
+class SurveyServiceTest {
     final SurveyGenerator surveyGenerator = new SurveyGenerator();
     final QuestionGenerator questionGenerator = new QuestionGenerator();
     public static final int COUNT = 20;
@@ -26,13 +26,13 @@ class SurveyManagerTest {
 
         for (int i = 0; i < questions.size(); i++) {
             Question question = questions.get(i);
-            survey.addQuestion(i, question);
+            survey.getQuestions().add(i, question);
             if (i % 2 == 0) {
                 question.open();
                 openedQuestions.add(question);
             }
         }
-        var result = SurveyManager.getOpenedQuestions(survey);
+        var result = SurveyService.getOpenedQuestions(survey);
 
         assertIterableEquals(openedQuestions, result);
     }
@@ -40,7 +40,9 @@ class SurveyManagerTest {
     @Test
     void getOpenedStatistics() {
         List<Question> questions = questionGenerator.generateList(COUNT, true);
-        Survey survey = new Survey("test_survey", questions);
+        Survey survey = new Survey();
+        survey.setTitle("test_survey");
+        survey.setQuestions(questions);
 
         List<QuestionStatistic> openedQuestions = new ArrayList<>();
         for (int i = 0; i < questions.size(); i += 2) {
@@ -48,7 +50,7 @@ class SurveyManagerTest {
             question.open();
             openedQuestions.add(new QuestionStatistic(question));
         }
-        Iterable<QuestionStatistic> result = SurveyManager.getOpenedStatistics(survey);
+        Iterable<QuestionStatistic> result = SurveyService.getOpenedStatistics(survey);
 
         assertIterableEquals(openedQuestions, result);
     }
@@ -56,7 +58,9 @@ class SurveyManagerTest {
     @Test
     void getClosedStatistics() {
         List<Question> questions = questionGenerator.generateList(COUNT, true);
-        Survey survey = new Survey("test_survey", questions);
+        Survey survey = new Survey();
+        survey.setTitle("test_survey");
+        survey.setQuestions(questions);
 
         List<QuestionStatistic> closedQuestions = new ArrayList<>();
         for (int i = 0; i < questions.size(); i += 2) {
@@ -65,23 +69,9 @@ class SurveyManagerTest {
             question.close();
             closedQuestions.add(new QuestionStatistic(question));
         }
-        Iterable<QuestionStatistic> result = SurveyManager.getClosedStatistics(survey);
+        Iterable<QuestionStatistic> result = SurveyService.getClosedStatistics(survey);
 
         assertIterableEquals(closedQuestions, result);
     }
 
-    @Test
-    void answer() {
-        List<Question> questions = questionGenerator.generateList(COUNT, true);
-        Survey survey = new Survey("test_survey", questions);
-        int questionIndex = (int) (Math.random() * questions.size());
-        int answerIndex = (int) (Math.random() * questions.get(questionIndex).getAnswersCount());
-
-        int count1 = questions.get(questionIndex).getAnswer(answerIndex).getCount();
-        questions.get(questionIndex).open();
-        survey.answer(questionIndex, answerIndex);
-        int count2 = questions.get(questionIndex).getAnswer(answerIndex).getCount();
-
-        assertEquals(count1 + 1, count2);
-    }
 }
