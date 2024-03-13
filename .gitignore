@@ -37,3 +37,6 @@ build/
 /src/main/resources/venv/
 /src/main/resources/surveys_data.json
 /src/main/resources/.idea
+/src/db_init/_questions.json
+/src/db_init/_answers.json
+/src/db_init/_surveys.json
