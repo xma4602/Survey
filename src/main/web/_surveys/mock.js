@@ -1,4 +1,4 @@
-const data = [
+const surveysData = [
     {
         "survey_id": "e3e70682-c209-4cac-a29f-6fbed82c07cd",
         "title": "Опрос 1",

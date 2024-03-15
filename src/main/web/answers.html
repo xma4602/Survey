@@ -3,9 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Опрос</title>
+    <title>Опросы.xma - ответы</title>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link rel="icon" href="img/logo.ico" type="image/x-icon">
+
+    <script src="_answers/mock.js"></script>
+    <script src="api.js"></script>
+    <script src="_answers/answers.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -31,82 +35,14 @@
                 <tr>
                     <th scope="col">№</th>
                     <th scope="col">Id</th>
+                    <th scope="col">QuestionId</th>
                     <th scope="col">Номер</th>
                     <th scope="col">Текст</th>
                     <th scope="col">Счетчик ответа</th>
                     <th scope="col">Действия</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>c0e9018d-2cb4-49a5-b2d9-0db8ed006cfa</td>
-                    <td>1</td>
-                    <td>Средний возраст опрашиваемых</td>
-                    <td>12</td>
-                    <td>
-                        <div class="btn-group btn-group-sm">
-                            <button type="button" class="btn btn-outline-secondary">
-                                <img src="img/edit.svg" alt="edit.svg" height="15">
-                                <span class="visually-hidden">Button</span>
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary">
-                                <img src="img/delete.svg" alt="edit.svg" height="15">
-                                <span class="visually-hidden">Button</span>
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary">
-                                <img src="img/clear.svg" alt="edit.svg" height="15">
-                                <span class="visually-hidden">Button</span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>97077f15-cf45-46c1-b9fe-9bb46523e473</td>
-                    <td>2</td>
-                    <td>Темы научных работ</td>
-                    <td>45</td>
-                    <td>
-                        <div class="btn-group btn-group-sm">
-                            <button type="button" class="btn btn-outline-secondary">
-                                <img src="img/edit.svg" alt="edit.svg" height="15">
-                                <span class="visually-hidden">Button</span>
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary">
-                                <img src="img/delete.svg" alt="edit.svg" height="15">
-                                <span class="visually-hidden">Button</span>
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary">
-                                <img src="img/clear.svg" alt="edit.svg" height="15">
-                                <span class="visually-hidden">Button</span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>dc6fdb82-b614-46b3-bd52-053d3b0dfdb7</td>
-                    <td>3</td>
-                    <td>Опрос о космосе</td>
-                    <td>32</td>
-                    <td>
-                        <div class="btn-group btn-group-sm">
-                            <button type="button" class="btn btn-outline-secondary">
-                                <img src="img/edit.svg" alt="edit.svg" height="15">
-                                <span class="visually-hidden">Button</span>
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary">
-                                <img src="img/delete.svg" alt="edit.svg" height="15">
-                                <span class="visually-hidden">Button</span>
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary">
-                                <img src="img/clear.svg" alt="edit.svg" height="15">
-                                <span class="visually-hidden">Button</span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
+                <tbody id="table">
                 </tbody>
             </table>
         </div>
@@ -117,4 +53,26 @@
 <script src="js/bootstrap.bundle.js"></script>
 
 </body>
+<template id="row-template">
+    <tr>
+        <th scope="row"></th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-primary" title="Редактировать">
+                    <img src="img/action_edit.svg" alt="edit.svg" height="15">
+                    <span class="visually-hidden">Button</span>
+                </button>
+                <button type="button" class="btn btn-danger" title="Удалить">
+                    <img src="img/action_delete.svg" alt="edit.svg" height="15">
+                    <span class="visually-hidden">Button</span>
+                </button>
+            </div>
+        </td>
+    </tr>
+</template>
 </html>

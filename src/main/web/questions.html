@@ -3,9 +3,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, initial-scale=1">
-    <title>Опрос</title>
+    <title>Опросы.xma - вопросы</title>
     <link href="css/bootstrap.css" rel="stylesheet">
+    <script src="js/bootstrap.bundle.min.js"></script>
+
     <link rel="icon" href="img/logo.ico" type="image/x-icon">
+
+    <script src="_questions/mock.js"></script>
+    <script src="api.js"></script>
+    <script src="_questions/questions.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -31,6 +37,7 @@
                 <tr>
                     <th scope="col">№</th>
                     <th scope="col">Id</th>
+                    <th scope="col">SurveyId</th>
                     <th scope="col">Номер</th>
                     <th scope="col">Тема вопроса</th>
                     <th scope="col">Тип</th>
@@ -39,94 +46,7 @@
                     <th scope="col">Действия</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>c0e9018d-2cb4-49a5-b2d9-0db8ed006cfa</td>
-                    <td>1</td>
-                    <td>Ваше любимое блюдо?</td>
-                    <td><img src="img/checked.svg" height="15">
-                        Много ответов
-                    </td>
-                    <td>
-                        <img src="img/edited.svg" height="15">
-                        Не открыт
-                    </td>
-                    <td><a href="#">8 ответов</a></td>
-                    <td>
-                        <div class="btn-group btn-group-sm">
-                            <button type="button" class="btn btn-outline-secondary">
-                                <img src="img/edit.svg" alt="edit.svg" height="15">
-                                <span class="visually-hidden">Button</span>
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary">
-                                <img src="img/delete.svg" alt="edit.svg" height="15">
-                                <span class="visually-hidden">Button</span>
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary">
-                                <img src="img/opened.svg" alt="edit.svg" height="15">
-                                <span class="visually-hidden">Button</span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>97077f15-cf45-46c1-b9fe-9bb46523e473</td>
-                    <td>2</td>
-                    <td>Какой ваш любимый цвет?</td>
-                    <td>
-                        <img src="img/unchecked.svg" height="15">
-                        Один ответ
-                    </td>
-                    <td>
-                        <img src="img/opened.svg" height="15">
-                        Открыт
-                    </td>
-                    <td><a href="#">13 ответов</a></td>
-                    <td>
-                        <div class="btn-group btn-group-sm">
-                            <button type="button" class="btn btn-outline-secondary">
-                                <img src="img/edit.svg" alt="edit.svg" height="15">
-                                <span class="visually-hidden">Button</span>
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary">
-                                <img src="img/delete.svg" alt="edit.svg" height="15">
-                                <span class="visually-hidden">Button</span>
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary">
-                                <img src="img/closed.svg" alt=".svg" height="15">
-                                <span class="visually-hidden">Button</span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>dc6fdb82-b614-46b3-bd52-053d3b0dfdb7</td>
-                    <td>3</td>
-                    <td>Сколько вам лет?</td>
-                    <td><img src="img/checked.svg" height="15">
-                        Много ответов
-                    </td>
-                    <td>
-                        <img src="img/closed.svg" height="15">
-                        Закрыт
-                    </td>
-                    <td><a href="#">22 ответов</a></td>
-                    <td>
-                        <div class="btn-group btn-group-sm">
-                            <button type="button" class="btn btn-outline-secondary">
-                                <img src="img/edit.svg" alt="edit.svg" height="15">
-                                <span class="visually-hidden">Button</span>
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary">
-                                <img src="img/delete.svg" alt="edit.svg" height="15">
-                                <span class="visually-hidden">Button</span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
+                <tbody id="table">
                 </tbody>
             </table>
         </div>
@@ -137,4 +57,56 @@
 <script src="js/bootstrap.bundle.js"></script>
 
 </body>
+<template id="row-template">
+    <tr>
+        <th scope="row"></th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+            <div class="btn-group btn-group-sm"></div>
+        </td>
+    </tr>
+</template>
+
+<template id="btn-edit">
+    <button type="button" class="btn btn-primary" title="Редактировать">
+        <img src="img/action_edit.svg" alt="edit.svg" height="15">
+        <span class="visually-hidden">Button</span>
+    </button>
+</template>
+
+<template id="btn-delete">
+    <button type="button" class="btn btn-danger" title="Удалить">
+        <img src="img/action_delete.svg" alt="edit.svg" height="15">
+        <span class="visually-hidden">Button</span>
+    </button>
+</template>
+
+<template id="btn-clear">
+    <button type="button" class="btn btn-secondary" title="Очистить ответы">
+        <img src="img/action_clear.svg" alt="edit.svg" height="15">
+        <span class="visually-hidden">Button</span>
+    </button>
+</template>
+
+<template id="btn-open">
+    <button type="button" class="btn btn-success" title="Открыть для ответов">
+        <img src="img/action_open.svg" alt="edit.svg" height="15">
+        <span class="visually-hidden">Button</span>
+    </button>
+</template>
+
+<template id="btn-close">
+    <button type="button" class="btn btn-success" title="Закрыть для ответов">
+        <img src="img/action_close.svg" alt="edit.svg" height="15">
+        <span class="visually-hidden">Button</span>
+    </button>
+</template>
+
+
 </html>
