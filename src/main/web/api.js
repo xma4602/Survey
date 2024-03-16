@@ -13,5 +13,9 @@ const api = {
 
     async getAnswers(pageNumber, pageSize) {
         return answersData;
+    },
+
+    async getQuestionnaire(pageNumber, pageSize) {
+        return questionnaireData;
     }
 };

@@ -8,8 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const buttonOpen = document.querySelector("#btn-open");
     const buttonClose = document.querySelector("#btn-close");
 
+    const type_single = '../img/type_single.svg'
+    const type_multi = '../img/type_multi.svg'
+    const status_created = '../img/status_created.svg'
+    const status_opened = '../img/status_opened.svg'
+    const status_closed = '../img/status_closed.svg'
+
     fillTable();
-    enableTooltips();
 
     function fillTable() {
         api.getQuestions()
@@ -39,25 +44,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function getTypeView(type) {
         if (type === 'SINGLE') {
-            return `<img src="img/type_single.svg" height=15> Один ответ`
+            return `<img src="${type_single}" height=15> Один ответ`
         } else {
-            return `<img src="img/type_multi.svg" height=15> Много ответов`
+            return `<img src="${type_multi}" height=15> Много ответов`
         }
     }
 
     function getStatusView(status) {
         if (status === 'EDIT_ONLY') {
-            return `<img src="img/status_created.svg" height=15> Не открыт`
+            return `<img src="${status_created}" height=15> Не открыт`
         } else if (status === 'ANSWERS_ONLY') {
-            return `<img src="img/status_opened.svg" height=15> Открыт`
+            return `<img src="${status_opened}" height=15> Открыт`
         } else {
-            return `<img src="img/status_closed.svg" height=15> Закрыт`
+            return `<img src="${status_closed}" height=15> Закрыт`
         }
     }
 
 
     function getActionsView(status) {
-        buttons = [];
+        let buttons = [];
         buttons.push(buttonEdit.content.cloneNode(true));
         buttons.push(buttonDelete.content.cloneNode(true));
         buttons.push(buttonClear.content.cloneNode(true));
@@ -68,11 +73,4 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(buttons);
         return buttons;
     }
-
-    function enableTooltips() {
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-    }
-
-
 });
