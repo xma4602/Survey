@@ -1,4 +1,4 @@
-//import * as mock from "./mock.js";
+//import * as mock from "./answers_mock.js";
 //export
 const api = {
     host: "http://localhost:63342",
