@@ -5,6 +5,7 @@ import com.xma.surveys.entities.QuestionType;
 import com.xma.surveys.repositories.QuestionRepository;
 import com.xma.surveys.statistic.QuestionStatistic;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -12,6 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
+@Service
 public class QuestionService {
 
     private final QuestionRepository questionRepository;

@@ -4,12 +4,14 @@ import com.xma.surveys.entities.Question;
 import com.xma.surveys.entities.QuestionStatus;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
+@Repository
 public class QuestionRepository {
     private final EntityManager entityManager;
 

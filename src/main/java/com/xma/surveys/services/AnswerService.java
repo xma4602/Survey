@@ -3,10 +3,12 @@ package com.xma.surveys.services;
 import com.xma.surveys.entities.Answer;
 import com.xma.surveys.repositories.AnswerRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @RequiredArgsConstructor
+@Service
 public class AnswerService {
     private final AnswerRepository answerRepository;
 
