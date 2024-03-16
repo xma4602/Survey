@@ -20,5 +20,20 @@ const api = {
     },
     deleteSurvey(survey_id) {
 
+    },
+    deleteQuestion(question_id) {
+
+    },
+    clearQuestion(question_id) {
+        
+    },
+    openQuestion(question_id) {
+        
+    },
+    closeQuestion(question_id) {
+        
+    },
+    deleteAnswer(survey_id) {
+
     }
 };

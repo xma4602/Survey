@@ -27,8 +27,24 @@ document.addEventListener("DOMContentLoaded", () => {
         rowFields[2].textContent = item.index;
         rowFields[3].textContent = item.text;
         rowFields[4].textContent = item.count;
+        setEditButton(rowFields[5].firstElementChild.children.item(0), item.answer_id)
+        setDeleteButton(rowFields[5].firstElementChild.children.item(1), item.answer_id)
         return row;
     }
 
+    function setEditButton(button, survey_id) {
+        button.addEventListener('click', e => {
+            e.preventDefault();
+            window.open(`${api.host}/web/src/main/web/_answers/answers_edit.html`);
+        })
+    }
 
+    function setDeleteButton(button, survey_id) {
+        button.addEventListener('click', e => {
+            e.preventDefault();
+            if (window.confirm("Точно удалить элемент?")) {
+                api.deleteAnswer(survey_id)
+            }
+        })
+    }
 });

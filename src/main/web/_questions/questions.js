@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () => {
     const table = document.getElementById("table");
     const rowTemplate = document.querySelector("#row-template");
@@ -38,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
         rowFields[4].innerHTML = getTypeView(item.type);
         rowFields[5].innerHTML = getStatusView(item.status);
         rowFields[6].innerHTML = `<a href="${api.host}/web/src/main/web/answers?squestion_id=${item.question_id}">${item.answers}</a>`;
-        rowFields[7].firstElementChild.append(...getActionsView(item.status));
+        rowFields[7].firstElementChild.append(...getActionsView(item.question_id, item.status));
         return row;
     }
 
@@ -60,17 +59,67 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-
-    function getActionsView(status) {
+    function getActionsView(question_id, status) {
         let buttons = [];
-        buttons.push(buttonEdit.content.cloneNode(true));
-        buttons.push(buttonDelete.content.cloneNode(true));
-        buttons.push(buttonClear.content.cloneNode(true));
-        if (status === 'EDIT_ONLY')
-            buttons.push(buttonOpen.content.cloneNode(true));
-        if (status === 'ANSWERS_ONLY')
-            buttons.push(buttonClose.content.cloneNode(true));
-        console.log(buttons);
+        buttons.push(createButtonEdit(question_id));
+        buttons.push(createButtonDelete(question_id));
+        buttons.push(createButtonClear(question_id));
+        if (status === 'EDIT_ONLY') buttons.push(createButtonOpen(question_id));
+        if (status === 'ANSWERS_ONLY') buttons.push(createButtonClose());
         return buttons;
+    }
+
+    function createButtonEdit(question_id) {
+        let button = buttonEdit.content.cloneNode(true).firstElementChild;
+        button.addEventListener('click', e => {
+            e.preventDefault();
+            window.open(`${api.host}/web/src/main/web/_questions/questions_edit.html`);
+        })
+        return button;
+    }
+
+    function createButtonDelete(question_id) {
+        let button = buttonDelete.content.cloneNode(true).firstElementChild;
+        button.addEventListener('click', e => {
+            e.preventDefault();
+            if (window.confirm("Вы точно ходите удалить элемент?")) {
+                api.deleteQuestion(question_id)
+            }
+        })
+        return button;
+    }
+
+    function createButtonClear(question_id) {
+        let button = buttonClear.content.cloneNode(true).firstElementChild;
+        button.addEventListener('click', e => {
+            e.preventDefault();
+            if (window.confirm("Вы точно ходите сбросить ответы у вопроса?")) {
+                api.clearQuestion(question_id)
+            }
+        })
+        return button;
+    }
+
+    function createButtonClose(question_id) {
+        let button = buttonClose.content.cloneNode(true).firstElementChild;
+        button.addEventListener('click', e => {
+            e.preventDefault();
+            if (window.confirm("Вы точно ходите закрыть вопрос для ответов?")) {
+                api.closeQuestion(question_id)
+            }
+        })
+        return button;
+    }
+
+
+    function createButtonOpen(question_id) {
+        let button = buttonOpen.content.cloneNode(true).firstElementChild;
+        button.addEventListener('click', e => {
+            e.preventDefault();
+            if (window.confirm("Вы точно ходите открыть вопрос для ответов?")) {
+                api.openQuestion(question_id)
+            }
+        })
+        return button;
     }
 });
