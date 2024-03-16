@@ -1,7 +1,7 @@
 //import * as mock from "./mock.js";
 //export
 const api = {
-    host: "http://localhost:63343",
+    host: "http://localhost:63342",
 
     async getSurveys(pageNumber, pageSize) {
         return surveysData;
@@ -17,5 +17,8 @@ const api = {
 
     async getQuestionnaire(pageNumber, pageSize) {
         return questionnaireData;
+    },
+    deleteSurvey(survey_id) {
+
     }
 };
