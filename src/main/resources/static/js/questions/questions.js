@@ -13,18 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const status_opened = '../img/status_opened.svg'
     const status_closed = '../img/status_closed.svg'
 
-    fillTable();
-
-    function fillTable() {
-        api.getQuestions()
-            .then(
-                items => {
-                    for (let index = 0; index < items.length; index++) {
-                        table.appendChild(createRow(index + 1, items[index]));
-                    }
-                }
-            )
-    }
+    fillTable(table, createRow, api.getQuestions());
 
     function createRow(number, item) {
         let row = rowTemplate.content.cloneNode(true);
@@ -36,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
         rowFields[3].textContent = item.topic;
         rowFields[4].innerHTML = getTypeView(item.type);
         rowFields[5].innerHTML = getStatusView(item.status);
-        rowFields[6].innerHTML = `<a href="${api.host}/web/src/main/web/answers?squestion_id=${item.question_id}">${item.answers}</a>`;
+        rowFields[6].innerHTML = getAnswersLink(item.question_id, item.answers);
         rowFields[7].firstElementChild.append(...getActionsView(item.question_id, item.status));
         return row;
     }
@@ -59,6 +48,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    function getAnswersLink(question_id, count) {
+        return `<a href="${api.host}/answers?question_id=${question_id}">${count}</a>`;
+    }
+
     function getActionsView(question_id, status) {
         let buttons = [];
         buttons.push(createButtonEdit(question_id));
@@ -73,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let button = buttonEdit.content.cloneNode(true).firstElementChild;
         button.addEventListener('click', e => {
             e.preventDefault();
-            window.open(`${api.host}/web/src/main/web/_questions/questions_edit.html`);
+            window.open(`${api.host}/questions/${question_id}/edit`);
         })
         return button;
     }

@@ -7,7 +7,9 @@
     <link href="css/bootstrap.css" rel="stylesheet">
     <link rel="icon" href="img/logo.ico" type="image/x-icon">
 
+    <script src="js/bootstrap.bundle.js"></script>
     <script src="js/surveys/surveys_mock.js"></script>
+    <script src="js/utils.js"></script>
     <script src="js/api.js"></script>
     <script src="js/surveys/surveys.js"></script>
 </head>
@@ -17,9 +19,9 @@
         <img src="img/logo.svg" alt="Опросы от Ханова" width="40">
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link active" href="surveys.html">Surveys</a>
-                <a class="nav-link" href="../questions/questions.html">Questions</a>
-                <a class="nav-link" href="../answers/answers.html">Answers</a>
+                <a class="nav-link active" href="/surveys">Surveys</a>
+                <a class="nav-link" href="/questions">Questions</a>
+                <a class="nav-link" href="/answers">Answers</a>
             </div>
         </div>
     </div>
@@ -30,7 +32,7 @@
         <div class="col">
         </div>
         <div class="col-xl-12">
-            <a class="btn btn-primary" href="http://localhost:63342/web/src/main/web/_surveys/surveys_edit.html"
+            <a class="btn btn-primary" href="/surveys/create"
                role="button">
                 <img src="img/action_create.svg" alt="Опросы от Ханова" width="20">
                 Создать новый элемент
@@ -54,7 +56,6 @@
         </div>
     </div>
 </div>
-<script src="js/bootstrap.bundle.js"></script>
 </body>
 
 <template id="row-template">

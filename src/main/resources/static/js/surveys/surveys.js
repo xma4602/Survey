@@ -2,18 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const table = document.getElementById("table");
     const rowTemplate = document.querySelector("#row-template");
 
-    fillTable();
-
-    function fillTable() {
-        api.getSurveys()
-            .then(
-                items => {
-                    for (let index = 0; index < items.length; index++) {
-                        table.appendChild(createRow(index + 1, items[index]));
-                    }
-                }
-            )
-    }
+    fillTable(table, createRow, api.getSurveys());
 
     function createRow(index, item) {
         let row = rowTemplate.content.cloneNode(true);
@@ -28,13 +17,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function getQuestionsLink(survey_id, count) {
-        return `<a href="${api.host}/web/src/main/web/questions?survey_id=${survey_id}">${count}</a>`
+        return `<a href="${api.host}/questions?survey_id=${survey_id}">${count}</a>`
     }
 
     function setEditButton(button, survey_id) {
         button.addEventListener('click', e => {
             e.preventDefault();
-            window.open(`${api.host}/web/src/main/web/_surveys/surveys_edit.html`);
+            window.open(`${api.host}/surveys/${survey_id}/edit`);
         })
     }
 

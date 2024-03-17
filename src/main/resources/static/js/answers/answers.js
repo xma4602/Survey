@@ -5,18 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const buttonEdit = document.querySelector("#btn-edit");
     const buttonDelete = document.querySelector("#btn-delete");
 
-    fillTable();
-
-    function fillTable() {
-        api.getAnswers()
-            .then(
-                items => {
-                    for (let index = 0; index < items.length; index++) {
-                        table.appendChild(createRow(index + 1, items[index]));
-                    }
-                }
-            )
-    }
+    fillTable(table, createRow, api.getAnswers());
 
     function createRow(number, item) {
         let row = rowTemplate.content.cloneNode(true);
@@ -32,18 +21,18 @@ document.addEventListener("DOMContentLoaded", () => {
         return row;
     }
 
-    function setEditButton(button, survey_id) {
+    function setEditButton(button, answer_id) {
         button.addEventListener('click', e => {
             e.preventDefault();
-            window.open(`${api.host}/web/src/main/web/_answers/answers_edit.html`);
+            window.open(`${api.host}/answers/${answer_id}/edit`);
         })
     }
 
-    function setDeleteButton(button, survey_id) {
+    function setDeleteButton(button, answer_id) {
         button.addEventListener('click', e => {
             e.preventDefault();
             if (window.confirm("Точно удалить элемент?")) {
-                api.deleteAnswer(survey_id)
+                api.deleteAnswer(answer_id)
             }
         })
     }

@@ -17,9 +17,6 @@ public class WebConfig implements WebMvcConfigurer {
                         "classpath:/templates/answers/",
                         "classpath:/templates/questionnaire/",
                         "classpath:/static/"
-//                        "classpath:/static/js/",
-//                        "classpath:/static/css/",
-//                        "classpath:/static/img/"
                 ).resourceChain(true)
                 .addResolver(new PathResourceResolver());
 

@@ -4,24 +4,24 @@
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, initial-scale=1">
     <title>Опросы.xma - вопросы</title>
-    <link href="../../static/css/bootstrap.css" rel="stylesheet">
-    <script src="../../static/js/bootstrap.bundle.min.js"></script>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link rel="icon" href="img/logo.ico" type="image/x-icon">
 
-    <link rel="icon" href="../../static/img/logo.ico" type="image/x-icon">
-
-    <script src="../../static/js/questions/questions_mock.js"></script>
-    <script src="../../static/js/api.js"></script>
-    <script src="../../static/js/questions/questions.js"></script>
+    <script src="js/bootstrap.bundle.js"></script>
+    <script src="js/questions/questions_mock.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/questions/questions.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-        <img src="../../static/img/logo.svg" alt="Опросы от Ханова" height="40">
+        <img src="img/logo.svg" alt="Опросы от Ханова" height="40">
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link" href="../surveys/surveys.html">Surveys</a>
-                <a class="nav-link active" href="questions.html">Questions</a>
-                <a class="nav-link" href="../answers/answers.html">Answers</a>
+                <a class="nav-link" href="/surveys">Surveys</a>
+                <a class="nav-link active" href="/questions">Questions</a>
+                <a class="nav-link" href="/answers">Answers</a>
             </div>
         </div>
     </div>
@@ -32,9 +32,9 @@
         <div class="col">
         </div>
         <div class="col-xl-12">
-            <a class="btn btn-primary" href="http://localhost:63342/web/src/main/web/_questions/questions_edit.html"
+            <a class="btn btn-primary" href="/questions/create"
                role="button">
-                <img src="../../static/img/action_create.svg" alt="Опросы от Ханова" width="20">
+                <img src="img/action_create.svg" alt="Опросы от Ханова" width="20">
                 Создать новый элемент
             </a>
             <br><br>
@@ -60,9 +60,8 @@
         </div>
     </div>
 </div>
-<script src="../../static/js/bootstrap.bundle.js"></script>
-
 </body>
+
 <template id="row-template">
     <tr>
         <th scope="row"></th>
@@ -81,35 +80,35 @@
 
 <template id="btn-edit">
     <button type="button" class="btn btn-primary" title="Редактировать">
-        <img src="../../static/img/action_edit.svg" alt="edit.svg" height="15">
+        <img src="img/action_edit.svg" alt="edit.svg" height="15">
         <span class="visually-hidden">Button</span>
     </button>
 </template>
 
 <template id="btn-delete">
     <button type="button" class="btn btn-danger" title="Удалить">
-        <img src="../../static/img/action_delete.svg" alt="edit.svg" height="15">
+        <img src="img/action_delete.svg" alt="edit.svg" height="15">
         <span class="visually-hidden">Button</span>
     </button>
 </template>
 
 <template id="btn-clear">
     <button type="button" class="btn btn-secondary" title="Очистить ответы">
-        <img src="../../static/img/action_clear.svg" alt="edit.svg" height="15">
+        <img src="img/action_clear.svg" alt="edit.svg" height="15">
         <span class="visually-hidden">Button</span>
     </button>
 </template>
 
 <template id="btn-open">
     <button type="button" class="btn btn-success" title="Открыть для ответов">
-        <img src="../../static/img/action_open.svg" alt="edit.svg" height="15">
+        <img src="img/action_open.svg" alt="edit.svg" height="15">
         <span class="visually-hidden">Button</span>
     </button>
 </template>
 
 <template id="btn-close">
     <button type="button" class="btn btn-success" title="Закрыть для ответов">
-        <img src="../../static/img/action_close.svg" alt="edit.svg" height="15">
+        <img src="img/action_close.svg" alt="edit.svg" height="15">
         <span class="visually-hidden">Button</span>
     </button>
 </template>
