@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Опросы.xma - опросы</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link rel="icon" href="img/logo.ico" type="image/x-icon">
+    <script src="js/bootstrap.bundle.js"></script>
+
+</head>
+<body>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-xl-9">
+            <form method="post" action="/answers/create">
+                <div class="mb-3">
+                    <label class="form-label">AnswerId</label>
+                    <input type="text" class="form-control" name="answerId">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">QuestionId</label>
+                    <input type="text" class="form-control" name=questionId">
+                </div>
+                <div class=class="form-label">Номер</label>
+                    <input type="text" class="form-control" name="index">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Текст ответа</label>
+                    <input type="text" class="form-control" name="text">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Счетчик ответа</label>
+                    <input type="text" class="form-control" name="count">
+                </div>
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+</body>
+</html>

@@ -2,8 +2,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const table = document.getElementById("table");
     const rowTemplate = document.querySelector("#row-template");
-    const buttonEdit = document.querySelector("#btn-edit");
-    const buttonDelete = document.querySelector("#btn-delete");
 
     fillTable(table, createRow, api.getAnswers());
 

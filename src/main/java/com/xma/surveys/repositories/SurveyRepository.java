@@ -2,6 +2,7 @@ package com.xma.surveys.repositories;
 
 import com.xma.surveys.entities.Survey;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -18,27 +19,22 @@ public class SurveyRepository {
         return Optional.of(entityManager.find(Survey.class, surveyId));
     }
 
+    @Transactional
     public Survey save(Survey survey) {
-        entityManager.getTransaction().begin();
         entityManager.persist(survey);
-        entityManager.getTransaction().commit();
         return survey;
     }
 
+    @Transactional
     public Survey update(Survey survey) {
-        entityManager.getTransaction().begin();
-        survey = entityManager.merge(survey);
-        entityManager.getTransaction().commit();
-        return survey;
+        return entityManager.merge(survey);
     }
 
+    @Transactional
     public boolean delete(UUID serveyId) {
-        entityManager.getTransaction().begin();
-        boolean deleted = entityManager.createQuery("delete from Survey where id = :id")
+        return entityManager.createQuery("delete from Survey where id = :id")
                 .setParameter("id", serveyId)
                 .executeUpdate() == 1;
-        entityManager.getTransaction().commit();
-        return deleted;
     }
 
     public List<Survey> findAll() {
