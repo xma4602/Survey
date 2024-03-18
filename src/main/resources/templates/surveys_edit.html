@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Опросы.xma - [[${title}]]</title>
+    <title>Опросы.xma - [[${header}]]</title>
     <link href="/img/logo.ico" rel="icon" type="image/x-icon">
     <link href="/css/bootstrap.css" rel="stylesheet">
     <script src="/js/bootstrap.bundle.js"></script>
@@ -18,15 +18,25 @@
         <div class="col"></div>
         <div class="col-xl-9">
             <form id="form">
-                <div class="mb-3" th:hidden="${isHidden}">
-                    <label class="form-label">SurveyId</label>
-                    <input name="surveyId" type="text" class="form-control">
+                <div class="card border-dark mb-3" id="survey">
+                    <div class="card-body">
+                        <div class="mb-3" th:hidden="${isHidden}">
+                            <label class="form-label">SurveyId</label>
+                            <input name="surveyId" type="text" class="form-control" th:disabled="${isDisabled}"
+                                   th:placeholder="${survey.surveyId}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Заголовок опроса</label>
+                            <input name="title" type="text" class="form-control"
+                                   th:placeholder="${survey.title}">
+                        </div>
+                    </div>
+                    <div class="card-footer text-body-secondary">
+                        <div class="d-grid gap-2 col-12 mx-auto">
+                            <button th:method="${method}" id="submitButton" type="button" class="btn btn-primary">Отправить</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Заголовок опроса</label>
-                    <input name="title" type="text" class="form-control">
-                </div>
-                <button id="submitButton" type="button" class="btn btn-primary">Отправить</button>
             </form>
         </div>
         <div class="col"></div>

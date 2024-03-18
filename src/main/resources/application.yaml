@@ -9,6 +9,8 @@ spring:
       hibernate.default_schema: dev
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  thymeleaf:
+    cache: false
 logging:
   level:
     org.springframework: debug

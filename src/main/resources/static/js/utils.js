@@ -8,4 +8,5 @@ function fillTable(table, fillFunction, dataPromise) {
                 }
             }
         )
+        .catch(reason => console.log(reason))
 }

@@ -11,21 +11,16 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/surveys").setViewName("surveys.html");
-        registry.addViewController("/questions").setViewName("questions.html");
-        registry.addViewController("/answers").setViewName("answers.html");
-        registry.addViewController("/questionnaire").setViewName("questionnaire.html");
+        registry.addViewController("/surveys").setViewName("surveys");
+        registry.addViewController("/questions").setViewName("questions");
+        registry.addViewController("/answers").setViewName("answers");
+        registry.addViewController("/questionnaire").setViewName("questionnaire");
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**").addResourceLocations(
-//                        "classpath:/templates/surveys/",
-//                        "classpath:/templates/questions/",
-//                        "classpath:/templates/answers/",
-//                        "classpath:/templates/questionnaire/",
-                        "classpath:/static/"
-                ).resourceChain(true)
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/")
+                .resourceChain(true)
                 .addResolver(new PathResourceResolver());
 
     }

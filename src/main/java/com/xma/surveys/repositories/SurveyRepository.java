@@ -4,6 +4,7 @@ import com.xma.surveys.entities.Survey;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -37,9 +38,11 @@ public class SurveyRepository {
                 .executeUpdate() == 1;
     }
 
-    public List<Survey> findAll() {
+    public List<Survey> findAll(PageRequest pageRequest) {
         return entityManager
                 .createQuery("from Survey", Survey.class)
+                .setFirstResult(pageRequest.getPageNumber() * pageRequest.getPageSize())
+                .setMaxResults(pageRequest.getPageSize())
                 .getResultList();
     }
 }
