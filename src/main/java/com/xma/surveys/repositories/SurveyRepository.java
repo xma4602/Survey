@@ -38,11 +38,9 @@ public class SurveyRepository {
                 .executeUpdate() == 1;
     }
 
-    public List<Survey> findAll(PageRequest pageRequest) {
+    public List<Survey> findAll() {
         return entityManager
                 .createQuery("from Survey", Survey.class)
-                .setFirstResult(pageRequest.getPageNumber() * pageRequest.getPageSize())
-                .setMaxResults(pageRequest.getPageSize())
                 .getResultList();
     }
 }

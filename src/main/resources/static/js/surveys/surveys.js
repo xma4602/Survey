@@ -2,6 +2,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const table = document.getElementById("table");
     const rowTemplate = document.querySelector("#row-template");
 
+    const createButton = document.getElementById("create");
+    createButton.addEventListener('click', event=>{
+        event.preventDefault();
+        console.log('click');
+        window.open('/surveys/new');
+    })
+
     refreshData();
 
     function refreshData(){
@@ -27,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function setEditButton(button, surveyId) {
         button.addEventListener('click', e => {
             e.preventDefault();
-            window.open(`${api.host}/surveys/edit?surveyId=${surveyId}`);
+            window.open('/surveys/edit?surveyId='+surveyId);
         })
     }
 

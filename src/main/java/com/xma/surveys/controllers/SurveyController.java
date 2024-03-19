@@ -2,9 +2,7 @@ package com.xma.surveys.controllers;
 
 import com.xma.surveys.entities.Survey;
 import com.xma.surveys.services.SurveyService;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,7 +24,7 @@ public class SurveyController {
     public String getCreatePage(Model model) {
         model.addAttribute("header", "Создание нового опроса");
         model.addAttribute("isHidden", "hidden");
-        model.addAttribute("survey", new Survey());
+        model.addAttribute("survey", new SurveyDto("Введите заголовок опроса"));
         model.addAttribute("method", "create");
         return "surveys_edit";
     }
@@ -80,6 +78,10 @@ public class SurveyController {
             surveyId = survey.getSurveyId();
             title = survey.getTitle();
             questions = survey.getQuestions().size();
+        }
+
+        public SurveyDto(String title) {
+            this.title = title;
         }
 
         public Survey toSurvey() {

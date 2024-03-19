@@ -27,7 +27,7 @@ public class SurveyService {
     }
 
     public List<Survey> getAll() {
-        return surveyRepository.findAll(PageRequest.ofSize(Integer.MAX_VALUE));
+        return surveyRepository.findAll();
     }
 
     public boolean update(Survey survey) {
