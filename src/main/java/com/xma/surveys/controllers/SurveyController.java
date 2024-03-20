@@ -2,17 +2,15 @@ package com.xma.surveys.controllers;
 
 import com.xma.surveys.entities.Survey;
 import com.xma.surveys.services.SurveyService;
-import lombok.*;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,7 +22,7 @@ public class SurveyController {
     public String getCreatePage(Model model) {
         model.addAttribute("header", "Создание нового опроса");
         model.addAttribute("isHidden", "hidden");
-        model.addAttribute("survey", new SurveyDto("Введите заголовок опроса"));
+        model.addAttribute("placeholder", new SurveyDto());
         model.addAttribute("method", "create");
         return "surveys_edit";
     }
@@ -36,7 +34,6 @@ public class SurveyController {
                 "No such element with id=" + surveyId
         ));
         model.addAttribute("header", "Редактирование опроса");
-        model.addAttribute("isDisabled", "disabled");
         model.addAttribute("survey", surveyOptional.get());
         model.addAttribute("method", "edit");
 
@@ -49,26 +46,25 @@ public class SurveyController {
         return surveyService.getAll().stream().map(SurveyDto::new).toList();
     }
 
-    @PostMapping("/crate")
+    @PostMapping("/create")
     @ResponseBody
-    public Survey createSurvey(@RequestBody SurveyDto dto) {
-        return surveyService.create(dto.getTitle());
+    public SurveyDto createSurvey(@RequestBody SurveyDto dto) {
+        return new SurveyDto(surveyService.create(dto.toSurvey()));
     }
 
     @PutMapping("/update")
     @ResponseBody
-    public boolean updateSurvey(@RequestBody SurveyDto dto) {
-        return surveyService.update(dto.toSurvey());
+    public SurveyDto updateSurvey(@RequestBody SurveyDto dto) {
+        return new SurveyDto(surveyService.update(dto.toSurvey()));
     }
 
     @DeleteMapping("/delete")
-    @ResponseBody
-    public boolean deleteSurvey(@RequestParam UUID surveyId) {
-        return surveyService.delete(surveyId);
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteSurvey(@RequestParam UUID surveyId) {
+        surveyService.delete(surveyId);
     }
 
     @Data
-    @NoArgsConstructor
     private static class SurveyDto {
         UUID surveyId;
         String title;
@@ -77,11 +73,14 @@ public class SurveyController {
         public SurveyDto(Survey survey) {
             surveyId = survey.getSurveyId();
             title = survey.getTitle();
-            questions = survey.getQuestions().size();
+            questions = survey.getQuestions() == null ? 0 :
+                    survey.getQuestions().size();
         }
 
-        public SurveyDto(String title) {
-            this.title = title;
+        public SurveyDto() {
+            surveyId = new UUID(0, 0);
+            title = "Введите заголовок опроса";
+            questions = 0;
         }
 
         public Survey toSurvey() {
@@ -93,8 +92,10 @@ public class SurveyController {
     }
 
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<String> handleNoSuchElementException(NoSuchElementException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    public ResponseEntity<Map<String, String>> handleNoSuchElementException(NoSuchElementException e) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(Map.of("message", e.getMessage()));
     }
 
 }

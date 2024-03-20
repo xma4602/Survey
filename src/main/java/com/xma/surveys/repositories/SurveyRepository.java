@@ -40,7 +40,7 @@ public class SurveyRepository {
 
     public List<Survey> findAll() {
         return entityManager
-                .createQuery("from Survey", Survey.class)
+                .createQuery("from Survey order by title", Survey.class)
                 .getResultList();
     }
 }

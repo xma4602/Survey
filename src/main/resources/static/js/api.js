@@ -1,6 +1,4 @@
-//import * as mock from "./answers_mock.js";
-//export
-const api = {
+export const api = {
     host: "http://localhost:8080",
 
     async getObject(url, params) {
@@ -12,6 +10,10 @@ const api = {
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'
                 },
+            })
+            .then(response => {
+                console.log(response);
+                return response
             })
             .then(response => response.json());
     },
@@ -28,7 +30,10 @@ const api = {
                 },
                 body: body
             })
-            .then(response => response.json());
+            .then(response => {
+                console.log(response);
+                return response
+            })
     },
 
     async deleteObject(url, params) {
@@ -42,10 +47,13 @@ const api = {
                     'Content-Type': 'application/json;charset=utf-8'
                 },
             })
-            .then(response => response.json())
+            .then(response => {
+                console.log(response);
+                return response
+            })
     },
 
-    async updateObject(url, params, body) {
+    async putObject(url, params, body) {
         let uri = this.host + url + new URLSearchParams(params);
         console.log(`PUT ${uri} ${body}`);
         return fetch(uri,
@@ -56,54 +64,68 @@ const api = {
                 },
                 body: body
             })
-            .then(response => response.json())
+            .then(response => {
+                console.log(response);
+                return response
+            })
     },
 
     surveys: {
-        async getAll() {
-            return api.getObject('/surveys/items', {})
+        async getAll(params) {
+            return api.getObject('/surveys/items?', params)
         },
         async delete(surveyId) {
             return api.deleteObject('/surveys/delete?', {'surveyId': surveyId})
         },
         async create(survey) {
-            return api.postObject('/surveys/crate', {}, survey)
+            return api.postObject('/surveys/create', {}, survey)
         },
         async update(survey) {
-            return api.updateObject('/surveys/update', {}, survey)
+            return api.putObject('/surveys/update', {}, survey)
         }
     },
 
     questions: {
-        async getQuestions(pageNumber, pageSize) {
-            return questionsData;
+        async getAll(params) {
+            return api.getObject('/questions/items?', params)
         },
-        deleteQuestion(question_id) {
-
+        async delete(questionId) {
+            return api.deleteObject('/questions/delete?', {'questionId': questionId})
         },
-        clearQuestion(question_id) {
-
+        async create(question) {
+            return api.postObject('/questions/create', {}, question)
         },
-        openQuestion(question_id) {
-
+        async update(question) {
+            return api.putObject('/questions/update', {}, question)
         },
-        closeQuestion(question_id) {
-
+        async open(questionId) {
+            return api.putObject('/questions/open?', {'questionId': questionId})
+        },
+        async close(questionId) {
+            return api.putObject('/questions/close?', {'questionId': questionId})
+        },
+        async clear(questionId) {
+            return api.putObject('/questions/clear?', {'questionId': questionId})
         }
+
     },
 
     answers: {
-        async getAnswers(pageNumber, pageSize) {
-            return answersData;
+        async getAll(params) {
+            return api.getObject('/answers/items?', params)
         },
-
-        deleteAnswer(survey_id) {
-
+        async delete(answerId) {
+            return api.deleteObject('/answers/delete?', {'answerId': answerId})
+        },
+        async create(answer) {
+            return api.postObject('/answers/create', {}, answer)
+        },
+        async update(answer) {
+            return api.putObject('/answers/update', {}, answer)
         }
     },
 
-
-    async getQuestionnaire(pageNumber, pageSize) {
+    async getQuestionnaire() {
         return questionnaireData;
     }
 };

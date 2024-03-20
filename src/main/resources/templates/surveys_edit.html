@@ -3,18 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Теги с директивами "не кешировать" для браузера и "узлов" веб-сети -->
-    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="pragma" content="no-cache" />
-    <meta http-equiv="expires" content="0" />
 
     <title>Опросы.xma - [[${header}]]</title>
     <link href="/img/logo.ico" rel="icon" type="image/x-icon">
     <link href="/css/bootstrap.css" rel="stylesheet">
+
     <script src="/js/bootstrap.bundle.js"></script>
-    <script src="/js/utils.js"></script>
-    <script src="/js/api.js"></script>
-    <script src="/js/surveys/surveys_edit.js"></script>
+    <script type="module" src="/js/surveys/surveys_edit.js"></script>
 </head>
 <body>
 <br>
@@ -23,22 +18,26 @@
         <div class="col"></div>
         <div class="col-xl-9">
             <form id="form">
-                <div class="card border-dark mb-3" id="survey">
+                <div class="card border-dark mb-3">
                     <div class="card-body">
                         <div class="mb-3" th:hidden="${isHidden}">
                             <label class="form-label">SurveyId</label>
-                            <input name="surveyId" type="text" class="form-control" th:disabled="${isDisabled}"
-                                   th:placeholder="${survey.surveyId}">
+                            <input name="surveyId" type="text" class="form-control" required readonly
+                                   th:placeholder="${placeholder} != null ? ${placeholder.title} : null"
+                                   th:value="${survey} != null ? ${survey.surveyId} : null">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Заголовок опроса</label>
-                            <input name="title" type="text" class="form-control"
-                                   th:placeholder="${survey.title}">
+                            <input name="title" type="text" class="form-control" required
+                                   th:placeholder="${placeholder} != null ? ${placeholder.title} : null"
+                                   th:value="${survey} != null ? ${survey.title} : null">
                         </div>
                     </div>
                     <div class="card-footer text-body-secondary">
                         <div class="d-grid gap-2 col-12 mx-auto">
-                            <button th:method="${method}" id="submitButton" type="button" class="btn btn-primary">Отправить</button>
+                            <button th:method="${method}" id="submitButton" type="button" class="btn btn-primary">
+                                Отправить
+                            </button>
                         </div>
                     </div>
                 </div>

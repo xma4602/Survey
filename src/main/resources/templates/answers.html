@@ -3,15 +3,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+    <meta http-equiv="expires" content="0"/>
+
     <title>Опросы.xma - ответы</title>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link rel="icon" href="img/logo.ico" type="image/x-icon">
 
     <script src="js/bootstrap.bundle.js"></script>
-    <script src="js/answers/answers_mock.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/api.js"></script>
-    <script src="js/answers/answers.js"></script>
+    <script type="module" src="js/answers/answers.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -32,11 +33,11 @@
         <div class="col">
         </div>
         <div class="col-xl-12">
-            <a class="btn btn-primary" href="/answers/create"
-               role="button">
+            <button type="button" class="btn btn-primary" id="create">
                 <img src="img/action_create.svg" alt="Опросы от Ханова" width="20">
+                <span class="visually-hidden">Button</span>
                 Создать новый элемент
-            </a>
+            </button>
             <br><br>
             <table class="table table-striped table-bordered table-hover">
                 <thead class="table-dark">
@@ -68,17 +69,23 @@
         <td></td>
         <td></td>
         <td>
-            <div class="btn-group btn-group-sm">
-                <button type="button" class="btn btn-primary" title="Редактировать">
-                    <img src="img/action_edit.svg" alt="edit.svg" height="15">
-                    <span class="visually-hidden">Button</span>
-                </button>
-                <button type="button" class="btn btn-danger" title="Удалить">
-                    <img src="img/action_delete.svg" alt="edit.svg" height="15">
-                    <span class="visually-hidden">Button</span>
-                </button>
-            </div>
+            <div class="btn-group btn-group-sm"></div>
         </td>
     </tr>
 </template>
+
+<template id="btn-edit">
+    <button type="button" class="btn btn-primary" title="Редактировать">
+        <img src="img/action_edit.svg" alt="edit.svg" height="15">
+        <span class="visually-hidden">Button</span>
+    </button>
+</template>
+
+<template id="btn-delete">
+    <button type="button" class="btn btn-danger" title="Удалить">
+        <img src="img/action_delete.svg" alt="edit.svg" height="15">
+        <span class="visually-hidden">Button</span>
+    </button>
+</template>
+
 </html>

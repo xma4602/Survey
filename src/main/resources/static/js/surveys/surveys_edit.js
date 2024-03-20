@@ -1,3 +1,6 @@
+import {api} from "../api.js";
+import {checkResponse} from "../utils.js";
+
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("form");
     const button = document.getElementById("submitButton");
@@ -10,22 +13,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function createSurvey(event) {
         event.preventDefault();
+
         const formData = new FormData(form);
         api.surveys.create(JSON.stringify(Object.fromEntries(formData.entries())))
-            .then(() =>
-                window.location.replace('/surveys')
-            )
-            .catch(reason => console.log(reason))
+            .then((response) => checkResponse(response, () => location.replace('/surveys')))
+
     }
 
     function updateSurvey(event) {
         event.preventDefault();
         const formData = new FormData(form);
         api.surveys.update(JSON.stringify(Object.fromEntries(formData.entries())))
-            .then(() =>
-                window.location.replace('/surveys')
-            )
-            .catch(reason => console.log(reason))
+            .then((response) => checkResponse(response, () => location.replace('/surveys')))
     }
 
 });

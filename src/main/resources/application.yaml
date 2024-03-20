@@ -13,4 +13,6 @@ spring:
     cache: false
 logging:
   level:
-    org.springframework: debug
+    com.zaxxer : warn
+    org.springframework.web: debug
+    org.hibernate: error

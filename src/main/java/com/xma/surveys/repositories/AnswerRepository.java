@@ -3,6 +3,7 @@ package com.xma.surveys.repositories;
 import com.xma.surveys.entities.Answer;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -28,39 +29,47 @@ public class AnswerRepository {
         }
     }
 
+    @Transactional
     public Answer save(Answer answer) {
-        entityManager.getTransaction().begin();
         entityManager.persist(answer);
-        entityManager.getTransaction().commit();
         return answer;
     }
 
+    @Transactional
     public Answer update(Answer answer) {
-        entityManager.getTransaction().begin();
-        answer = entityManager.merge(answer);
-        entityManager.getTransaction().commit();
-        return answer;
+        return entityManager.merge(answer);
     }
 
+    @Transactional
     public boolean delete(UUID answerId) {
-        entityManager.getTransaction().begin();
-        boolean deleted = entityManager.createQuery("delete from Answer where answerId = :id")
+        return entityManager.createQuery("delete from Answer where answerId = :id")
                 .setParameter("id", answerId)
                 .executeUpdate() == 1;
-        entityManager.getTransaction().commit();
-        return deleted;
     }
 
     public List<Answer> findAll() {
         return entityManager
-                .createQuery("from Answer", Answer.class)
+                .createQuery("from Answer a order by questionId, a.index", Answer.class)
                 .getResultList();
     }
 
     public List<Answer> findByQuestionId(UUID id) {
         return entityManager
-                .createQuery("from Answer where questionId = :id", Answer.class)
+                .createQuery("from Answer as a where questionId = :id order by questionId, a.index", Answer.class)
                 .setParameter("id", id)
                 .getResultList();
+    }
+
+    public boolean existQuestion(UUID questionId) {
+        try {
+            entityManager
+                    .createQuery("from Question where questionId = :id", Answer.class)
+                    .setParameter("id", questionId)
+                    .getSingleResult();
+            return true;
+        } catch (NoResultException e) {
+            return false;
+        }
+
     }
 }

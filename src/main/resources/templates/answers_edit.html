@@ -3,11 +3,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Опросы.xma - опросы</title>
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link rel="icon" href="img/logo.ico" type="image/x-icon">
-    <script src="js/bootstrap.bundle.js"></script>
+    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+    <meta http-equiv="expires" content="0"/>
 
+    <title>Опросы.xma - [[${header}]]</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link rel="icon" href="/img/logo.ico" type="image/x-icon">
+
+    <script src="/js/bootstrap.bundle.js"></script>
+    <script type="module" src="/js/answers/answers_edit.js"></script>
 </head>
 <body>
 <br>
@@ -15,28 +20,54 @@
     <div class="row">
         <div class="col"></div>
         <div class="col-xl-9">
-            <form method="post" action="/answers/create">
-                <div class="mb-3">
-                    <label class="form-label">AnswerId</label>
-                    <input type="text" class="form-control" name="answerId">
+            <div class="card border-dark mb-3">
+                <div class="card-body">
+                    <form id="form">
+                        <div class="mb-3" th:hidden="${isHidden}">
+                            <label class="form-label">AnswerId</label>
+                            <input type="text" class="form-control" name="answerId" required readonly
+                                   th:placeholder="${placeholder} != null ? ${placeholder.answerId} : null"
+                                   th:value="${answer} != null ? ${answer.answerId} : null"
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">QuestionId</label>
+                            <input type="text" class="form-control" name="questionId" required
+                                   th:placeholder="${placeholder} != null ? ${placeholder.questionId} : null"
+                                   th:value="${answer} != null ? ${answer.questionId} : null"
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Номер</label>
+                            <input type="text" class="form-control" name="index" required
+                                   th:placeholder="${placeholder} != null ? ${placeholder.index} : null"
+                                   th:value="${answer} != null ? ${answer.index} : null"
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Текст ответа</label>
+                            <input type="text" class="form-control" name="text" required
+                                   th:placeholder="${placeholder} != null ? ${placeholder.text} : null"
+                                   th:value="${answer} != null ? ${answer.text} : null"
+                            >
+                        </div>
+                        <div class="mb-3" th:hidden="${isHidden}">
+                            <label class="form-label">Счетчик ответа</label>
+                            <input type="text" class="form-control" name="count" required
+                                   th:placeholder="${placeholder} != null ? ${placeholder.count} : 0"
+                                   th:value="${answer} != null ? ${answer.count} : 0"
+                            >
+                        </div>
+                    </form>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">QuestionId</label>
-                    <input type="text" class="form-control" name=questionId">
+                <div class="card-footer text-body-secondary">
+                    <div class="d-grid gap-2 col-12 mx-auto">
+                        <button th:method="${method}" id="submitButton" type="button" class="btn btn-primary">
+                            Отправить
+                        </button>
+                    </div>
                 </div>
-                <div class=class="form-label">Номер</label>
-                    <input type="text" class="form-control" name="index">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Текст ответа</label>
-                    <input type="text" class="form-control" name="text">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Счетчик ответа</label>
-                    <input type="text" class="form-control" name="count">
-                </div>
-                <button type="submit" class="btn btn-primary">Отправить</button>
-            </form>
+            </div>
         </div>
         <div class="col"></div>
     </div>

@@ -1,11 +1,17 @@
+import {fillTable, buttonOpen, buttonDelete, buttonEdit, buttonClose, buttonClear} from "../utils.js";
+import {api} from "../api.js";
+
 document.addEventListener("DOMContentLoaded", () => {
     const table = document.getElementById("table");
     const rowTemplate = document.querySelector("#row-template");
-    const buttonEdit = document.querySelector("#btn-edit");
-    const buttonDelete = document.querySelector("#btn-delete");
-    const buttonClear = document.querySelector("#btn-clear");
-    const buttonOpen = document.querySelector("#btn-open");
-    const buttonClose = document.querySelector("#btn-close");
+
+    const btnEdit = document.querySelector("#btn-edit");
+    const btnDelete = document.querySelector("#btn-delete");
+    const btnClear = document.querySelector("#btn-clear");
+    const btnOpen = document.querySelector("#btn-open");
+    const btnClose = document.querySelector("#btn-close");
+
+    const urlParams = new URLSearchParams(location.search).entries();
 
     const type_single = '../img/type_single.svg'
     const type_multi = '../img/type_multi.svg'
@@ -13,20 +19,30 @@ document.addEventListener("DOMContentLoaded", () => {
     const status_opened = '../img/status_opened.svg'
     const status_closed = '../img/status_closed.svg'
 
-    fillTable(table, createRow, api.getQuestions());
+    const createButton = document.getElementById("create");
+    createButton.addEventListener('click', event => {
+        event.preventDefault();
+        location.replace('/questions/new');
+    })
+
+    refreshData();
+
+    function refreshData() {
+        fillTable(table, createRow, api.questions.getAll(urlParams));
+    }
 
     function createRow(number, item) {
         let row = rowTemplate.content.cloneNode(true);
         row.querySelector("th").textContent = number;
         let rowFields = row.querySelectorAll("td");
-        rowFields[0].textContent = item.question_id;
-        rowFields[1].textContent = item.survey_id;
+        rowFields[0].textContent = item.questionId;
+        rowFields[1].textContent = item.surveyId;
         rowFields[2].textContent = item.index;
         rowFields[3].textContent = item.topic;
         rowFields[4].innerHTML = getTypeView(item.type);
         rowFields[5].innerHTML = getStatusView(item.status);
-        rowFields[6].innerHTML = getAnswersLink(item.question_id, item.answers);
-        rowFields[7].firstElementChild.append(...getActionsView(item.question_id, item.status));
+        rowFields[6].innerHTML = getAnswersLink(item.questionId, item.answers);
+        rowFields[7].firstElementChild.append(...getActionsView(item.questionId, item.status));
         return row;
     }
 
@@ -48,71 +64,37 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function getAnswersLink(question_id, count) {
-        return `<a href="${api.host}/answers?question_id=${question_id}">${count}</a>`;
+    function getAnswersLink(questionId, count) {
+        return `<a href="/answers?questionId=${questionId}">${count}</a>`;
     }
 
-    function getActionsView(question_id, status) {
+    function getActionsView(questionId, status) {
         let buttons = [];
-        buttons.push(createButtonEdit(question_id));
-        buttons.push(createButtonDelete(question_id));
-        buttons.push(createButtonClear(question_id));
-        if (status === 'EDIT_ONLY') buttons.push(createButtonOpen(question_id));
-        if (status === 'ANSWERS_ONLY') buttons.push(createButtonClose());
+        buttons.push(createButtonEdit(questionId));
+        buttons.push(createButtonDelete(questionId));
+        buttons.push(createButtonClear(questionId));
+        if (status === 'EDIT_ONLY') buttons.push(createButtonOpen(questionId));
+        else if (status === 'ANSWERS_ONLY') buttons.push(createButtonClose(questionId));
         return buttons;
     }
 
-    function createButtonEdit(question_id) {
-        let button = buttonEdit.content.cloneNode(true).firstElementChild;
-        button.addEventListener('click', e => {
-            e.preventDefault();
-            window.open(`${api.host}/questions/${question_id}/edit`);
-        })
-        return button;
+    function createButtonEdit(id) {
+        return buttonEdit(btnEdit, '/questions/edit?questionId=' + id);
     }
 
-    function createButtonDelete(question_id) {
-        let button = buttonDelete.content.cloneNode(true).firstElementChild;
-        button.addEventListener('click', e => {
-            e.preventDefault();
-            if (window.confirm("Вы точно ходите удалить элемент?")) {
-                api.deleteQuestion(question_id)
-            }
-        })
-        return button;
+    function createButtonDelete(id) {
+        return buttonDelete(btnDelete, () => api.questions.delete(id), refreshData);
     }
 
-    function createButtonClear(question_id) {
-        let button = buttonClear.content.cloneNode(true).firstElementChild;
-        button.addEventListener('click', e => {
-            e.preventDefault();
-            if (window.confirm("Вы точно ходите сбросить ответы у вопроса?")) {
-                api.clearQuestion(question_id)
-            }
-        })
-        return button;
+    function createButtonClear(id) {
+        return buttonClear(btnClear, () => api.questions.clear(id), refreshData);
     }
 
-    function createButtonClose(question_id) {
-        let button = buttonClose.content.cloneNode(true).firstElementChild;
-        button.addEventListener('click', e => {
-            e.preventDefault();
-            if (window.confirm("Вы точно ходите закрыть вопрос для ответов?")) {
-                api.closeQuestion(question_id)
-            }
-        })
-        return button;
+    function createButtonClose(id) {
+        return buttonClose(btnClose, () => api.questions.close(id), refreshData);
     }
 
-
-    function createButtonOpen(question_id) {
-        let button = buttonOpen.content.cloneNode(true).firstElementChild;
-        button.addEventListener('click', e => {
-            e.preventDefault();
-            if (window.confirm("Вы точно ходите открыть вопрос для ответов?")) {
-                api.openQuestion(question_id)
-            }
-        })
-        return button;
+    function createButtonOpen(id) {
+        return buttonOpen(btnOpen, () => api.questions.open(id), refreshData);
     }
 });

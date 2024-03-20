@@ -3,60 +3,76 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Опросы.xma - опросы</title>
-    <link href="../static/css/bootstrap.css" rel="stylesheet">
-    <link rel="icon" href="../static/img/logo.ico" type="image/x-icon">
+    <title>Опросы.xma - [[${header}]]</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link rel="icon" href="/img/logo.ico" type="image/x-icon">
 
-    <!--    <script src="answers_mock.js"></script>-->
-    <!--    <script src="../api.js"></script>-->
-    <!--    <script src="surveys.js"></script>-->
+    <script src="/js/bootstrap.bundle.js"></script>
+    <script type="module" src="/js/questions/questions_edit.js"></script>
 </head>
 <body>
+<br>
 <div class="container">
     <div class="row">
         <div class="col"></div>
         <div class="col-xl-9">
-            <form>
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">QuestionId</label>
-                    <input type="text" class="form-control" id="id2" aria-describedby="emailHelp"
-                           disabled
-                           placeholder="e3e70682-c209-4cac-a29f-6fbed82c07cd">
+            <form id="form">
+                <div class="card border-dark mb-3">
+                    <div class="card-body">
+                        <div class="mb-3" th:hidden="${isHidden}">
+                            <label class="form-label">QuestionId</label>
+                            <input type="text" class="form-control" name="questionId" readonly
+                                   th:placeholder="${placeholder} != null ? ${placeholder.questionId} : null"
+                                   th:value="${question} != null ? ${question.questionId} : null">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">SurveyId</label>
+                            <input type="text" class="form-control" name="surveyId"
+                                   th:placeholder="${placeholder} != null ? ${placeholder.surveyId} : null"
+                                   th:value="${question} != null ? ${question.surveyId} : null"
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Номер</label>
+                            <input type="text" class="form-control" name="index"
+                                   th:placeholder="${placeholder} != null ? ${placeholder.index} : null"
+                                   th:value="${question} != null ? ${question.index} : null"
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Заголовок вопроса</label>
+                            <input type="text" class="form-control" name="topic"
+                                   th:placeholder="${placeholder} != null ? ${placeholder.topic} : null"
+                                   th:value="${question} != null ? ${question.topic} : null"
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Тип</label>
+                            <select class="form-select" name="type">
+                                <option value="SINGLE" selected>Одиночный</option>
+                                <option value="MULTI">Множественный</option>
+                            </select>
+                        </div>
+                        <div class="mb-3" th:hidden="${isHidden}">
+                            <label class="form-label">Статус</label>
+                            <input type="text" class="form-control" name="status" readonly
+                                   th:placeholder="${placeholder} != null ? ${placeholder.status} : null"
+                                   th:value="${question} != null ? ${question.status} : EDIT_ONLY"
+                            >
+                        </div>
+                    </div>
+                    <div class="card-footer text-body-secondary">
+                        <div class="d-grid gap-2 col-12 mx-auto">
+                            <button th:method="${method}" id="submitButton" type="button" class="btn btn-primary">
+                                Отправить
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">SurveyId</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                           disabled
-                           placeholder="e3e70682-c209-4cac-a29f-6fbed82c07cd">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Номер</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                           placeholder="3">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Заголовок вопроса</label>
-                    <input type="text" class="form-control" id="exampleInputPassword1"
-                           placeholder="Вы любите шоколад?">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Тип</label>
-                    <select class="form-select" aria-label="Пример выбора по умолчанию">
-                        <option value="1" selected>Одиночный</option>
-                        <option value="2">Множественный</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Статус</label>
-                    <input type="text" class="form-control" id="exampleInputPassword1" disabled
-                           placeholder="Открыт">
-                </div>
-                <button type="submit" class="btn btn-primary">Отправить</button>
             </form>
         </div>
         <div class="col"></div>
     </div>
 </div>
-<script src="../static/js/bootstrap.bundle.js"></script>
 </body>
 </html>

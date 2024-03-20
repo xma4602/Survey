@@ -8,10 +8,7 @@
     <link rel="icon" href="img/logo.ico" type="image/x-icon">
 
     <script src="js/bootstrap.bundle.js"></script>
-    <script src="js/questions/questions_mock.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/api.js"></script>
-    <script src="js/questions/questions.js"></script>
+    <script type="module" src="/js/questions/questions.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -32,11 +29,11 @@
         <div class="col">
         </div>
         <div class="col-xl-12">
-            <a class="btn btn-primary" href="/questions/create"
-               role="button">
+            <button type="button" class="btn btn-primary" id="create">
                 <img src="img/action_create.svg" alt="Опросы от Ханова" width="20">
+                <span class="visually-hidden">Button</span>
                 Создать новый элемент
-            </a>
+            </button>
             <br><br>
             <table class="table table-striped table-bordered table-hover">
                 <thead class="table-dark">

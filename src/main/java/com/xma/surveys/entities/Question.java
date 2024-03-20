@@ -68,4 +68,8 @@ public class Question {
     public void close() {
         status = ARCHIVED;
     }
+
+    public void clearAnswers() {
+        answers.forEach(Answer::clearCount);
+    }
 }
