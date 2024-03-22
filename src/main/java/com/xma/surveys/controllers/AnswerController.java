@@ -48,7 +48,7 @@ public class AnswerController {
     @ResponseBody
     public List<AnswerDto> getAnswersById(@RequestParam(required = false) UUID questionId) {
         List<Answer> list = questionId == null ?
-                answerService.getAll() :
+                answerService.findAll() :
                 answerService.findByQuestionId(questionId);
         return list.stream().map(AnswerDto::new).toList();
     }

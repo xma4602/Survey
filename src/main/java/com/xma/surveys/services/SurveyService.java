@@ -21,7 +21,7 @@ public class SurveyService {
     }
 
     public Optional<Survey> findById(UUID id) {
-        return surveyRepository.find(id);
+        return surveyRepository.findById(id);
     }
 
     public List<Survey> getAll() {
@@ -30,13 +30,18 @@ public class SurveyService {
 
     public Survey update(Survey survey) {
         UUID id = survey.getSurveyId();
-        findById(id).orElseThrow(
-                () -> new NoSuchElementException("No such survey with id=" + id)
-        );
-        return surveyRepository.update(survey);
+        if (!surveyRepository.existsById(id)) {
+            notExists(id);
+        }
+        return surveyRepository.save(survey);
     }
 
-    public boolean delete(UUID surveyId) {
-        return surveyRepository.delete(surveyId);
+    public void delete(UUID surveyId) {
+        surveyRepository.deleteById(surveyId);
     }
+
+    private static void notExists(UUID id) {
+        throw new NoSuchElementException("No such survey with id=" + id);
+    }
+
 }

@@ -3,10 +3,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Теги с директивами "не кешировать" для браузера и "узлов" веб-сети -->
-    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate"/>
-    <meta http-equiv="pragma" content="no-cache"/>
-    <meta http-equiv="expires" content="0"/>
 
     <title>Опросы.xma - Редактирование опроса</title>
     <link href="css/bootstrap.css" rel="stylesheet">
@@ -47,6 +43,7 @@
                     <th scope="col">SurveyId</th>
                     <th scope="col">Заголовок опроса</th>
                     <th scope="col">Вопросы</th>
+                    <th scope="col">Ссылка на анкету</th>
                     <th scope="col">Действия</th>
                 </tr>
                 </thead>
@@ -63,6 +60,7 @@
 <template id="row-template">
     <tr>
         <th scope="row"></th>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>

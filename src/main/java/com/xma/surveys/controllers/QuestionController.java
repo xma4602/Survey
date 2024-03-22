@@ -1,6 +1,5 @@
 package com.xma.surveys.controllers;
 
-import com.xma.surveys.entities.Answer;
 import com.xma.surveys.entities.Question;
 import com.xma.surveys.entities.QuestionStatus;
 import com.xma.surveys.entities.QuestionType;
@@ -47,7 +46,7 @@ public class QuestionController {
     @ResponseBody
     public List<QuestionDto> getQuestions(@RequestParam(required = false) UUID surveyId) {
         List<Question> list = surveyId == null ?
-                questionService.getAll() :
+                questionService.findAll() :
                 questionService.findBySurveyId(surveyId);
         return list.stream().map(QuestionDto::new).toList();
     }

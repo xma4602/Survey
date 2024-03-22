@@ -8,9 +8,7 @@
     <link rel="icon" href="img/logo.ico" type="image/x-icon">
 
     <script src="js/bootstrap.bundle.js"></script>
-    <script src="js/questionnaire/questionnaire_mock.js"></script>
-    <script src="js/api.js"></script>
-    <script src="js/questionnaire/questionnaire.js"></script>
+    <script type="module" src="js/questionnaires/questionnaires.js"></script>
 </head>
 <body>
 <div class="container">
@@ -18,13 +16,15 @@
         <div class="col">
         </div>
         <div class="col-xl-6">
-            <form>
+            <form id="form">
                 <div class="card border-dark mb-3" id="survey">
                     <div class="card-header">Survey Header</div>
+
                     <div class="card-body"></div>
+
                     <div class="card-footer text-body-secondary">
                         <div class="d-grid gap-2 col-12 mx-auto">
-                            <button class="btn btn-primary" type="button">Отправить ответы</button>
+                            <button class="btn btn-primary" type="button" id="submitButton">Отправить ответы</button>
                         </div>
                     </div>
                 </div>

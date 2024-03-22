@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
         fillTable(table, createRow, api.surveys.getAll());
     }
 
+
     function createRow(index, item) {
         let row = rowTemplate.content.cloneNode(true);
         row.querySelector("th").textContent = index;
@@ -26,13 +27,18 @@ document.addEventListener("DOMContentLoaded", () => {
         rowFields[0].textContent = item.surveyId;
         rowFields[1].textContent = item.title;
         rowFields[2].innerHTML = getQuestionsLink(item.surveyId, item.questions);
-        rowFields[3].firstElementChild.append(createButtonEdit(item.surveyId))
-        rowFields[3].firstElementChild.append(createButtonDelete(item.surveyId))
+        rowFields[3].innerHTML = getQuestionnaireLink(item.surveyId);
+        rowFields[4].firstElementChild.append(createButtonEdit(item.surveyId))
+        rowFields[4].firstElementChild.append(createButtonDelete(item.surveyId))
         return row;
     }
 
     function getQuestionsLink(id, count) {
         return `<a href="/questions?surveyId=${id}">${count}</a>`
+    }
+
+    function getQuestionnaireLink(id) {
+        return `<a href="/questionnaires?surveyId=${id}">Анкета</a>`
     }
 
     function createButtonEdit(id) {

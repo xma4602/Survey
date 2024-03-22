@@ -1,7 +1,6 @@
 package com.xma.surveys.services;
 
 import com.xma.surveys.entities.Question;
-import com.xma.surveys.entities.QuestionType;
 import com.xma.surveys.repositories.QuestionRepository;
 import com.xma.surveys.statistic.QuestionStatistic;
 import lombok.RequiredArgsConstructor;
@@ -22,69 +21,62 @@ public class QuestionService {
         return questionRepository.save(question);
     }
 
-    public Optional<Question> findById(UUID id) {
-        return questionRepository.find(id);
+    public Optional<Question> findById(UUID questionId) {
+        return questionRepository.findById(questionId);
     }
 
-    public List<Question> findBySurveyId(UUID id) {
-        return questionRepository.findBySurveyId(id);
+    public List<Question> findBySurveyId(UUID surveyId) {
+        return questionRepository.findBySurveyId(surveyId);
     }
 
-    public List<Question> getAll() {
+    public List<Question> findAll() {
         return questionRepository.findAll();
     }
 
     public Question update(Question question) {
-        UUID id = question.getQuestionId();
-        questionRepository.find(id).orElseThrow(
-                () -> new NoSuchElementException("No such question with id=" + id)
-        );
-        return questionRepository.update(question);
+        UUID questionId = question.getQuestionId();
+        if (!questionRepository.existsById(questionId)) {
+            notExists(questionId);
+        }
+        return questionRepository.save(question);
     }
 
-    public boolean delete(UUID questionId) {
-        return questionRepository.delete(questionId);
+    public void delete(UUID questionId) {
+        questionRepository.deleteById(questionId);
     }
 
-    public Question openQuestion(UUID id) {
-        Question question = questionRepository.find(id)
-                .orElseThrow(() -> new NoSuchElementException("No such question with id=" + id));
+    public Question openQuestion(UUID questionId) {
+        Optional<Question> questionOptional = questionRepository.findById(questionId);
+        if (questionOptional.isEmpty()){
+            notExists(questionId);
+        }
+        Question question = questionOptional.get();
         question.open();
-        return questionRepository.update(question);
+        return questionRepository.save(question);
     }
 
-    public Question closeQuestion(UUID id) {
-        Question question = questionRepository.find(id)
-                .orElseThrow(() -> new NoSuchElementException("No such question with id=" + id));
+    public Question closeQuestion(UUID questionId) {
+        Optional<Question> questionOptional = questionRepository.findById(questionId);
+        if (questionOptional.isEmpty()){
+            notExists(questionId);
+        }
+        Question question = questionOptional.get();
         question.close();
-        return questionRepository.update(question);
+        return questionRepository.save(question);
     }
 
-    public Question clearQuestion(UUID id) {
-        Question question = questionRepository.find(id)
-                .orElseThrow(() -> new NoSuchElementException("No such question with id=" + id));
+    public Question clearQuestion(UUID questionId) {
+        Optional<Question> questionOptional = questionRepository.findById(questionId);
+        if (questionOptional.isEmpty()){
+            notExists(questionId);
+        }
+        Question question = questionOptional.get();
         question.clearAnswers();
-        return questionRepository.update(question);
+        return questionRepository.save(question);
     }
 
-    public List<Question> getOpenedQuestions(UUID id) {
-        return findBySurveyId(id).stream()
-                .filter(Question::isVisible)
-                .toList();
-    }
-
-    public List<QuestionStatistic> getOpenedStatistics(UUID id) {
-        return findBySurveyId(id).stream()
-                .filter(Question::isVisible)
-                .map(QuestionStatistic::new)
-                .toList();
-    }
-
-    public List<QuestionStatistic> getClosedStatistics(UUID id) {
-        return findBySurveyId(id).stream()
-                .filter(question -> !question.isVisible() && !question.isEditable())
-                .map(QuestionStatistic::new)
-                .toList();
+    private static void notExists(UUID questionId) {
+        throw new NoSuchElementException("No such question with questionId=" + questionId);
     }
 
 }

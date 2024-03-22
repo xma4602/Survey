@@ -125,7 +125,12 @@ export const api = {
         }
     },
 
-    async getQuestionnaire() {
-        return questionnaireData;
+    questionnaire: {
+        async get(surveyId) {
+            return api.getObject('/questionnaires/items?', {'surveyId': surveyId})
+        },
+        async submit(surveyId, answers) {
+            return api.postObject('/questionnaires/submit?', {'surveyId': surveyId}, answers)
+        },
     }
 };

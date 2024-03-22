@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnOpen = document.querySelector("#btn-open");
     const btnClose = document.querySelector("#btn-close");
 
-    const urlParams = new URLSearchParams(location.search).entries();
+    const urlParams = new URLSearchParams(location.search).toString();
 
     const type_single = '../img/type_single.svg'
     const type_multi = '../img/type_multi.svg'

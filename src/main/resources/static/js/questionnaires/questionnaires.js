@@ -1,12 +1,25 @@
+import {api} from "../api.js";
+import {checkResponse} from "../utils.js";
+
 document.addEventListener("DOMContentLoaded", () => {
     const survey = document.getElementById("survey");
     const questionTemplate = document.getElementById("question");
     const answerTemplate = document.getElementById("answer");
+    const surveyId = new URLSearchParams(location.search).get("surveyId");
+
+    const form = document.getElementById("form");
+    const submitButton = document.getElementById("submitButton");
+    submitButton.addEventListener('click', event => {
+        const formData = new FormData(form);
+        let data = Object.values(Object.fromEntries(formData))
+        api.questionnaire.submit(surveyId, JSON.stringify(data))
+            .then((response) => checkResponse(response, window.close))
+    });
 
     fillForm();
 
     function fillForm() {
-        api.getQuestionnaire()
+        api.questionnaire.get(surveyId)
             .then(
                 surveyData => {
                     document.title = 'Опросы.xma - ' + surveyData.title;
@@ -25,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let body = question.lastElementChild;
         for (let answer of questionData.answers) {
             let type = questionData.type === 'SINGLE' ? "radio" : "checkbox";
-            body.appendChild(createAnswer(answer, type, questionData.question_id))
+            body.appendChild(createAnswer(answer, type, questionData.topic))
         }
         return question;
     }
@@ -35,10 +48,10 @@ document.addEventListener("DOMContentLoaded", () => {
         let input = answer.children.item(0);
         let label = answer.children.item(1);
         input.type = type;
-        input.value = answerData.answer_id;
-        input.id = answerData.answer_id;
+        input.value = answerData.answerId;
+        input.id = answerData.answerId;
         input.name = name;
-        label.setAttribute('for', answerData.answer_id);
+        label.setAttribute('for', answerData.answerId);
         label.textContent = answerData.text;
         return answer;
     }
