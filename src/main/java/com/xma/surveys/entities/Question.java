@@ -73,7 +73,7 @@ public class Question {
         answers.forEach(Answer::clearCount);
     }
 
-    public int getAnswersCount() {
+    public int getAnswersCountSum() {
         return answers.stream().mapToInt(Answer::getCount).sum();
     }
 }

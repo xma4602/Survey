@@ -106,7 +106,7 @@ public class QuestionController {
             index = question.getIndex();
             status = question.getStatus();
             type = question.getType();
-            count = question.getAnswersCount();
+            count = question.getAnswersCountSum();
         }
 
         public QuestionDto() {

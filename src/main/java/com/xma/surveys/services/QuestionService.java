@@ -2,7 +2,6 @@ package com.xma.surveys.services;
 
 import com.xma.surveys.entities.Question;
 import com.xma.surveys.repositories.QuestionRepository;
-import com.xma.surveys.statistic.QuestionStatistic;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

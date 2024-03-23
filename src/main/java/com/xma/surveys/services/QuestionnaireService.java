@@ -1,5 +1,7 @@
 package com.xma.surveys.services;
 
+import com.xma.surveys.entities.Question;
+import com.xma.surveys.entities.QuestionnaireStatistic;
 import com.xma.surveys.entities.Survey;
 import com.xma.surveys.repositories.AnswerRepository;
 import com.xma.surveys.repositories.SurveyRepository;
@@ -7,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -29,4 +32,13 @@ public class QuestionnaireService {
         answerRepository.incrementCounts(answersIds);
     }
 
+    public List<QuestionnaireStatistic> getStatistics(UUID surveyId) {
+        Survey survey = surveyRepository.findById(surveyId).orElseThrow(
+                () -> new NoSuchElementException("No such Survey with id=" + surveyId)
+        );
+        return survey.getQuestions().stream()
+                .filter(Question::isVisible)
+                .map(QuestionnaireStatistic::new)
+                .toList();
+    }
 }

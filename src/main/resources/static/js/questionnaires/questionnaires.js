@@ -5,16 +5,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const survey = document.getElementById("survey");
     const questionTemplate = document.getElementById("question");
     const answerTemplate = document.getElementById("answer");
+    const messageSubmitted = document.getElementById("submitted");
+    const footer = document.getElementById("footer");
+    const form = document.getElementById("form");
+
     const surveyId = new URLSearchParams(location.search).get("surveyId");
 
-    const form = document.getElementById("form");
-    const submitButton = document.getElementById("submitButton");
-    submitButton.addEventListener('click', event => {
+    document.getElementById("submitButton").addEventListener('click', submitData);
+
+    function submitData() {
         const formData = new FormData(form);
-        let data = Object.values(Object.fromEntries(formData))
+        const data = Array.from(formData.values())
         api.questionnaire.submit(surveyId, JSON.stringify(data))
-            .then((response) => checkResponse(response, window.close))
-    });
+            .then(response => checkResponse(response, fillStats))
+    }
 
     fillForm();
 
@@ -54,5 +58,45 @@ document.addEventListener("DOMContentLoaded", () => {
         label.setAttribute('for', answerData.answerId);
         label.textContent = answerData.text;
         return answer;
+    }
+
+    function fillStats(stats) {
+        stats.then(data => {
+            footer.replaceChildren(messageSubmitted.content);
+
+            for (let question of document.querySelectorAll('.question')) {
+                for (let answer of question.querySelectorAll('.answer')) {
+                    setStat(answer, data);
+                }
+            }
+        })
+    }
+
+    function setStat(answer, stats) {
+        let id = answer.children[0].id;
+        let data = findData(id, stats);
+        answer.children[1].textContent += ` (${data.count} / ${data.percent}%)`
+        answer.append(createStatsBar(data.count))
+    }
+
+    function findData(id, stats) {
+        for (let stat of stats) {
+            let answerStats = stat.answerStats;
+            for (let statId in answerStats) {
+                if (statId === id){
+                    return answerStats[statId];
+                }
+            }
+        }
+    }
+
+    function createStatsBar(percent) {
+        let progressBar = document.createElement('div');
+        progressBar.innerHTML = `
+           <div class="progress" role="progressbar" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar" style="width: ${percent}%"></div>
+           </div>
+        `;
+        return progressBar;
     }
 });

@@ -1,9 +1,6 @@
 package com.xma.surveys.controllers;
 
-import com.xma.surveys.entities.Answer;
-import com.xma.surveys.entities.Question;
-import com.xma.surveys.entities.QuestionType;
-import com.xma.surveys.entities.Survey;
+import com.xma.surveys.entities.*;
 import com.xma.surveys.services.QuestionnaireService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +25,10 @@ public class QuestionnaireController {
 
     @PostMapping("/submit")
     @ResponseStatus(HttpStatus.OK)
-    public void submitQuestionnaire(@RequestParam UUID surveyId, @RequestBody List<UUID> answersIds){
+    @ResponseBody
+    public List<QuestionnaireStatistic> submitQuestionnaire(@RequestParam UUID surveyId, @RequestBody List<UUID> answersIds){
         questionnaireService.writeDownAnswers(answersIds);
+        return questionnaireService.getStatistics(surveyId);
     }
 
     @Data

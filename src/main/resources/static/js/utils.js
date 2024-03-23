@@ -13,7 +13,7 @@ export function fillTable(table, fillFunction, dataPromise) {
 
 export function checkResponse(response, onGood) {
     if (response.ok) {
-        onGood(response)
+        onGood(response.json())
     } else {
         response.json().then(({message}) => alert(message))
     }

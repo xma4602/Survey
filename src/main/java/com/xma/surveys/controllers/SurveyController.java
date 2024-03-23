@@ -73,7 +73,7 @@ public class SurveyController {
         public SurveyDto(Survey survey) {
             surveyId = survey.getSurveyId();
             title = survey.getTitle();
-            count = survey.getAnswersCount();
+            count = survey.getAnswersCountSum();
         }
 
         public SurveyDto() {

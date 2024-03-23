@@ -22,7 +22,7 @@ public class Survey {
     @OneToMany(mappedBy = "surveyId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Question> questions;
 
-    public int getAnswersCount() {
-        return questions.stream().mapToInt(Question::getAnswersCount).sum();
+    public int getAnswersCountSum() {
+        return questions.stream().mapToInt(Question::getAnswersCountSum).sum();
     }
 }
