@@ -41,8 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
         rowFields[3].textContent = item.topic;
         rowFields[4].innerHTML = getTypeView(item.type);
         rowFields[5].innerHTML = getStatusView(item.status);
-        rowFields[6].innerHTML = getAnswersLink(item.questionId, item.answers);
-        rowFields[7].firstElementChild.append(...getActionsView(item.questionId, item.status));
+        rowFields[6].innerHTML = getAnswersLink(item.questionId);
+        rowFields[7].innerHTML = item.count;
+        rowFields[8].firstElementChild.append(...getActionsView(item.questionId, item.status));
         return row;
     }
 
@@ -64,8 +65,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function getAnswersLink(questionId, count) {
-        return `<a href="/answers?questionId=${questionId}">${count}</a>`;
+    function getAnswersLink(questionId) {
+        return `<a href="/answers?questionId=${questionId}">Ответы</a>`;
     }
 
     function getActionsView(questionId, status) {

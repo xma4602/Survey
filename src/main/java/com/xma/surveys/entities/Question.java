@@ -72,4 +72,8 @@ public class Question {
     public void clearAnswers() {
         answers.forEach(Answer::clearCount);
     }
+
+    public int getAnswersCount() {
+        return answers.stream().mapToInt(Answer::getCount).sum();
+    }
 }

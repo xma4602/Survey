@@ -26,15 +26,18 @@ document.addEventListener("DOMContentLoaded", () => {
         let rowFields = row.querySelectorAll("td");
         rowFields[0].textContent = item.surveyId;
         rowFields[1].textContent = item.title;
-        rowFields[2].innerHTML = getQuestionsLink(item.surveyId, item.questions);
-        rowFields[3].innerHTML = getQuestionnaireLink(item.surveyId);
-        rowFields[4].firstElementChild.append(createButtonEdit(item.surveyId))
-        rowFields[4].firstElementChild.append(createButtonDelete(item.surveyId))
+        rowFields[2].innerHTML = getQuestionnaireLink(item.surveyId);
+        rowFields[3].innerHTML = getQuestionsLink(item.surveyId);
+        rowFields[4].innerHTML = item.count;
+        rowFields[5].firstElementChild.append(
+            createButtonEdit(item.surveyId),
+            createButtonDelete(item.surveyId)
+        )
         return row;
     }
 
-    function getQuestionsLink(id, count) {
-        return `<a href="/questions?surveyId=${id}">${count}</a>`
+    function getQuestionsLink(id) {
+        return `<a href="/questions?surveyId=${id}">Вопросы</a>`
     }
 
     function getQuestionnaireLink(id) {

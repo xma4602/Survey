@@ -68,19 +68,18 @@ public class SurveyController {
     private static class SurveyDto {
         UUID surveyId;
         String title;
-        int questions;
+        int count;
 
         public SurveyDto(Survey survey) {
             surveyId = survey.getSurveyId();
             title = survey.getTitle();
-            questions = survey.getQuestions() == null ? 0 :
-                    survey.getQuestions().size();
+            count = survey.getAnswersCount();
         }
 
         public SurveyDto() {
             surveyId = new UUID(0, 0);
             title = "Введите заголовок опроса";
-            questions = 0;
+            count = 0;
         }
 
         public Survey toSurvey() {

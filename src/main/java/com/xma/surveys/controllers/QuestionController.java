@@ -97,7 +97,7 @@ public class QuestionController {
         QuestionStatus status;
         QuestionType type;
         int index;
-        int answers;
+        int count;
 
         public QuestionDto(Question question) {
             questionId = question.getQuestionId();
@@ -106,8 +106,7 @@ public class QuestionController {
             index = question.getIndex();
             status = question.getStatus();
             type = question.getType();
-            answers = question.getAnswers() == null ? 0 :
-                    question.getAnswers().size();
+            count = question.getAnswersCount();
         }
 
         public QuestionDto() {
@@ -115,7 +114,7 @@ public class QuestionController {
             topic = "Введите тему вопроса";
             status = QuestionStatus.EDIT_ONLY;
             type = QuestionType.SINGLE;
-            answers = 0;
+            count = 0;
         }
 
         public Question toQuestion() {
