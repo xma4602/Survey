@@ -13,6 +13,7 @@ import java.util.UUID;
 
 @Repository
 public interface AnswerRepository extends CrudRepository<Answer, UUID> {
+    @Query("from Answer a order by a.questionId, a.index")
     List<Answer> findAll();
     List<Answer> findByQuestionId(UUID questionId);
 
