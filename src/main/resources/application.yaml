@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/surveys_db
+    username: surveys_admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate.default_schema: dev
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  thymeleaf:
+    cache: false
+logging:
+  level:
+    com.zaxxer : warn
+    org.springframework.web: debug
+    org.hibernate: error

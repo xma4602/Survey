@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Опросы.xma - [[${header}]]</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link rel="icon" href="/img/logo.ico" type="image/x-icon">
+
+    <script src="/js/bootstrap/bootstrap.bundle.js"></script>
+    <script type="module" src="/js/questions/questions_edit.js"></script>
+</head>
+<body>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-xl-9">
+            <form id="form">
+                <div class="card border-dark mb-3">
+                    <div class="card-body">
+                        <div class="mb-3" th:hidden="${isHidden}">
+                            <label class="form-label">QuestionId</label>
+                            <input type="text" class="form-control" name="questionId" readonly
+                                   th:placeholder="${placeholder} != null ? ${placeholder.questionId} : null"
+                                   th:value="${question} != null ? ${question.questionId} : null">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">SurveyId</label>
+                            <input type="text" class="form-control" name="surveyId"
+                                   th:placeholder="${placeholder} != null ? ${placeholder.surveyId} : null"
+                                   th:value="${question} != null ? ${question.surveyId} : null"
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Номер</label>
+                            <input type="text" class="form-control" name="index"
+                                   th:placeholder="${placeholder} != null ? ${placeholder.index} : null"
+                                   th:value="${question} != null ? ${question.index} : null"
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Заголовок вопроса</label>
+                            <input type="text" class="form-control" name="topic"
+                                   th:placeholder="${placeholder} != null ? ${placeholder.topic} : null"
+                                   th:value="${question} != null ? ${question.topic} : null"
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Тип</label>
+                            <select class="form-select" name="type">
+                                <option value="SINGLE" selected>Одиночный</option>
+                                <option value="MULTI">Множественный</option>
+                            </select>
+                        </div>
+                        <div class="mb-3" th:hidden="${isHidden}">
+                            <label class="form-label">Статус</label>
+                            <input type="text" class="form-control" name="status" readonly
+                                   th:placeholder="${placeholder} != null ? ${placeholder.status} : null"
+                                   th:value="${question} != null ? ${question.status} : EDIT_ONLY"
+                            >
+                        </div>
+                    </div>
+                    <div class="card-footer text-body-secondary">
+                        <div class="d-grid gap-2 col-12 mx-auto">
+                            <button th:method="${method}" id="submitButton" type="button" class="btn btn-primary">
+                                Отправить
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+</body>
+</html>

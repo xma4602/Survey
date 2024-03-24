@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Опросы.xma - Редактирование опроса</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link rel="icon" href="img/logo.ico" type="image/x-icon">
+
+    <script src="/js/bootstrap/bootstrap.bundle.js"></script>
+    <script type="module" src="js/surveys/surveys.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <img src="img/logo.svg" alt="Опросы от Ханова" width="40">
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link active" href="/surveys">Surveys</a>
+                <a class="nav-link" href="/questions">Questions</a>
+                <a class="nav-link" href="/answers">Answers</a>
+            </div>
+        </div>
+    </div>
+</nav>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col-xl-12">
+            <button type="button" class="btn btn-primary" id="create">
+                <img src="img/action_create.svg" alt="Опросы от Ханова" width="20">
+                <span class="visually-hidden">Button</span>
+                Создать новый элемент
+            </button>
+            <br><br>
+            <table class="table table-striped table-bordered table-hover">
+                <thead class="table-dark">
+                <tr>
+                    <th scope="col">№</th>
+                    <th scope="col">SurveyId</th>
+                    <th scope="col">Заголовок опроса</th>
+                    <th scope="col">Ссылка на анкету</th>
+                    <th scope="col">Ссылка на вопросы</th>
+                    <th scope="col">Счетчик ответов</th>
+                    <th scope="col">Действия</th>
+                </tr>
+                </thead>
+                <tbody id="table">
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+</div>
+</body>
+
+<template id="row-template">
+    <tr>
+        <th scope="row"></th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+            <div class="btn-group btn-group-sm"></div>
+        </td>
+    </tr>
+</template>
+
+
+<template id="btn-edit">
+    <button type="button" class="btn btn-primary" title="Редактировать">
+        <img src="img/action_edit.svg" alt="edit.svg" height="15">
+        <span class="visually-hidden">Button</span>
+    </button>
+</template>
+
+<template id="btn-delete">
+    <button type="button" class="btn btn-danger" title="Удалить">
+        <img src="img/action_delete.svg" alt="edit.svg" height="15">
+        <span class="visually-hidden">Button</span>
+    </button>
+</template>
+
+</html>
