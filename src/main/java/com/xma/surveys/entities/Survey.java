@@ -3,6 +3,7 @@ package com.xma.surveys.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ public class Survey {
     private String title;
 
     @OneToMany(mappedBy = "surveyId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Question> questions;
+    private List<Question> questions = new ArrayList<>();
 
     public int getAnswersCountSum() {
         return questions.stream().mapToInt(Question::getAnswersCountSum).sum();

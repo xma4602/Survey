@@ -3,6 +3,7 @@ package com.xma.surveys.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,7 +27,7 @@ public class Question {
     private UUID surveyId;
 
     @OneToMany(mappedBy = "questionId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Answer> answers;
+    private List<Answer> answers = new ArrayList<>();
 
     @Column(name = "index")
     private int index;

@@ -2,7 +2,7 @@ export const api = {
     host: "http://localhost:8080",
 
     async getObject(url, params) {
-        let uri = this.host + url + new URLSearchParams(params);
+        let uri = this.host + '/api' + url + new URLSearchParams(params);
         console.log('GET ' + uri);
         return fetch(uri,
             {
@@ -19,7 +19,7 @@ export const api = {
     },
 
     async postObject(url, params, body) {
-        let uri = this.host + url + new URLSearchParams(params);
+        let uri = this.host + '/api' + url + new URLSearchParams(params);
         console.log(`POST ${uri} ${body}`);
 
         return fetch(uri,
@@ -37,7 +37,7 @@ export const api = {
     },
 
     async deleteObject(url, params) {
-        let uri = this.host + url + new URLSearchParams(params);
+        let uri = this.host + '/api' + url + new URLSearchParams(params);
         console.log('DELETE ' + uri);
 
         return fetch(uri,
@@ -54,7 +54,7 @@ export const api = {
     },
 
     async putObject(url, params, body) {
-        let uri = this.host + url + new URLSearchParams(params);
+        let uri = this.host + '/api' + url + new URLSearchParams(params);
         console.log(`PUT ${uri} ${body}`);
         return fetch(uri,
             {

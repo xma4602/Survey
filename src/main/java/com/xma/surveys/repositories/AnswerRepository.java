@@ -15,6 +15,7 @@ import java.util.UUID;
 public interface AnswerRepository extends CrudRepository<Answer, UUID> {
     @Query("from Answer a order by a.questionId, a.index")
     List<Answer> findAll();
+    @Query("from Answer a where a.questionId = :questionId order by a.questionId, a.index")
     List<Answer> findByQuestionId(UUID questionId);
 
     @Transactional
